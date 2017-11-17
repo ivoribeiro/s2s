@@ -8,10 +8,12 @@ import java.net.Socket;
 
 public class Server extends Thread {
     private int tcpPort;
+    private String mainServerHost;
 
-    public Server(int tcpPort) throws IOException {
+    public Server(int tcpPort, String mainServerHost) throws IOException {
         super("Slacker Server Thread");
         this.tcpPort = tcpPort;
+        this.mainServerHost = mainServerHost;
     }
 
     public void run() {
@@ -24,6 +26,9 @@ public class Server extends Thread {
             datagramSocket = new DatagramSocket(4445);
             System.out.println("Slacker Server: Multicast listning on " + serverSocket.getLocalPort() + ".");
             InetAddress group = InetAddress.getByName("230.0.0.1");
+            //Connect to the main server via  a tcp unicast socket
+            Socket mainServerSocket = new Socket(this.mainServerHost, 2048);
+
             //ServerMessageHandler mh = new ServerMessageHandler(datagramSocket, group);
             while (active) {
                 // client connection
