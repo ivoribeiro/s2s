@@ -24,6 +24,10 @@ public class Slacker {
         return this.username;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
     public Socket getClientSocket() {
         return clientSocket;
     }

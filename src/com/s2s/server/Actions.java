@@ -32,6 +32,15 @@ public class Actions {
         }
     }
 
+    public void login(String username, String password) {
+        Slacker client = this.clients.exists(username, password);
+        if (client != null) {
+            Slacker newClient=this.clients.login(client);
+        } else {
+            System.out.println("Dados Inválidos");
+        }
+    }
+
     public void getOnlineUsers() {
         System.out.println("Onlineusers");
     }

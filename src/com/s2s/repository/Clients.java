@@ -26,4 +26,25 @@ public class Clients extends Repository<Slacker> {
         }
         return null;
     }
+
+    public Slacker exists(String username, String password) {
+        for (Slacker slacker : this.getModels()) {
+            if (slacker.getUsername().equals(username) && slacker.getPassword().equals(password)) {
+                return slacker;
+            }
+        }
+        return null;
+    }
+
+    private Slacker updateClient(Slacker old, Slacker newOne) {
+        int index = this.getModels().indexOf(old);
+        this.getModels().set(index, newOne);
+        return this.getModels().get(index);
+    }
+
+    public Slacker login(Slacker slacker) {
+        Slacker old = slacker;
+        slacker.setLoged(true);
+        return this.updateClient(old, slacker);
+    }
 }
