@@ -20,6 +20,10 @@ public class Slacker {
         this.loged = false;
     }
 
+    public String getUsername() {
+        return this.username;
+    }
+
     public Socket getClientSocket() {
         return clientSocket;
     }

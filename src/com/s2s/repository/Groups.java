@@ -9,4 +9,8 @@ public class Groups extends Repository<Group> {
     public Groups(ArrayList<Group> groups) {
         super(groups);
     }
+
+    public Groups() {
+        super();
+    }
 }

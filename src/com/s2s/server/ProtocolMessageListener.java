@@ -1,10 +1,12 @@
 package com.s2s.server;
 
 import com.s2s.models.Slacker;
+import com.s2s.repository.Repository;
 import com.s2s.repository.Routes;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Map;
 
 public class ProtocolMessageListener extends Thread {
     private Socket client;
@@ -12,14 +14,16 @@ public class ProtocolMessageListener extends Thread {
     private BufferedWriter out;
     private Router router;
     private Slacker slacker;
+    Map<String, Repository> repos;
 
-    ProtocolMessageListener(Slacker slacker, Routes routes) throws IOException {
+    ProtocolMessageListener(Map<String, Repository> repos, Slacker slacker) throws IOException {
         super("ProtocolMessageListener Thread");
         this.slacker = slacker;
+        this.repos = repos;
         this.in = new BufferedReader(new InputStreamReader(slacker.getClientSocket().getInputStream()));
         Writer ouw = new OutputStreamWriter(slacker.getClientSocket().getOutputStream());
         this.out = new BufferedWriter(ouw);
-        this.router = new Router(slacker,routes);
+        this.router = new Router(slacker, repos);
     }
 
     public void run() {

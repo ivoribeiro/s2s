@@ -2,20 +2,34 @@ package com.s2s.server;
 
 import com.s2s.models.Route;
 import com.s2s.models.Slacker;
+import com.s2s.repository.Clients;
+import com.s2s.repository.Groups;
+import com.s2s.repository.Repository;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
 public class Actions {
 
-    private Slacker slacker = null;
+    private Slacker slacker;
+    private Clients clients;
+    private Groups groups;
 
-    public Actions(Slacker slacker) {
+    public Actions(Map<String, Repository> repositoryMap, Slacker slacker) {
         this.slacker = slacker;
+        this.clients = (Clients) repositoryMap.get("Clients");
+        this.groups = (Groups) repositoryMap.get("Groups");
     }
 
     public void register(String username, String password) {
-        System.out.println(username);
-        System.out.println(password);
+        if (this.clients.exists(username) == null) {
+            this.slacker.setUsername(username);
+            this.slacker.setPassword(password);
+            this.clients.addClient(this.slacker);
+            System.out.println("Novo Slacker");
+        } else {
+            System.out.println("Username já existe");
+        }
     }
 
     public void getOnlineUsers() {

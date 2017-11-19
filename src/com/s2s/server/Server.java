@@ -1,15 +1,24 @@
 package com.s2s.server;
 
 import com.s2s.models.Slacker;
+import com.s2s.repository.Clients;
+import com.s2s.repository.Groups;
+import com.s2s.repository.Repository;
 import com.s2s.repository.Routes;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Server extends Thread {
 
     private int tcpPort;
+    private HashMap<String, Repository> repos;
+    private Routes routes;
+    private Groups groups;
+    private Clients clients;
 
     public static void main(String args[]) {
         try {
@@ -29,6 +38,17 @@ public class Server extends Thread {
     public Server(int tcpPort) throws IOException {
         super("Server Thread");
         this.tcpPort = tcpPort;
+        this.initRepos();
+    }
+
+    private void initRepos() {
+        this.repos = new HashMap<String, Repository>();
+        this.routes = new Routes();
+        this.clients = new Clients();
+        this.groups = new Groups();
+        this.repos.put("Routes", this.routes);
+        this.repos.put("Clients", this.clients);
+        this.repos.put("Groups", this.groups);
     }
 
     public void run() {
@@ -37,7 +57,6 @@ public class Server extends Thread {
             ServerSocket serverSocket = null;
             serverSocket = new ServerSocket(this.tcpPort);
             System.out.println("Server: Tcp Unicast socket listning on " + serverSocket.getInetAddress().getHostAddress() + ":" + serverSocket.getLocalPort());
-            Routes routes = new Routes();
             while (active) {
                 // client connection
                 Socket clientSocket = serverSocket.accept();
@@ -45,7 +64,8 @@ public class Server extends Thread {
                 int clientPort = clientSocket.getPort();
                 System.out.println("Server: New client connection on " + clientHost + " Socket internal port:" + clientPort);
                 Slacker slacker = new Slacker(clientSocket, clientHost, clientPort);
-                ProtocolMessageListener protocol = new ProtocolMessageListener(slacker, routes);
+                //adds this new connection to clients repository
+                ProtocolMessageListener protocol = new ProtocolMessageListener(repos, slacker);
                 protocol.start();
             }
             serverSocket.close();
