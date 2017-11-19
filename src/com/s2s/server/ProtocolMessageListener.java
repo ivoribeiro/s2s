@@ -1,30 +1,33 @@
 package com.s2s.server;
 
+import com.s2s.models.Slacker;
+import com.s2s.repository.Routes;
+
 import java.io.*;
 import java.net.Socket;
 
-public class Protocol extends Thread {
+public class ProtocolMessageListener extends Thread {
     private Socket client;
     private BufferedReader in;
     private BufferedWriter out;
     private Router router;
+    private Slacker slacker;
 
-    Protocol(Socket socket, InputStream inputStream, OutputStream outputStream) {
-        super("Protocol Thread");
-        this.client = socket;
-        this.in = new BufferedReader(new InputStreamReader(inputStream));
-        Writer ouw = new OutputStreamWriter(outputStream);
+    ProtocolMessageListener(Slacker slacker, Routes routes) throws IOException {
+        super("ProtocolMessageListener Thread");
+        this.slacker = slacker;
+        this.in = new BufferedReader(new InputStreamReader(slacker.getClientSocket().getInputStream()));
+        Writer ouw = new OutputStreamWriter(slacker.getClientSocket().getOutputStream());
         this.out = new BufferedWriter(ouw);
-        this.router = new Router();
+        this.router = new Router(slacker,routes);
     }
 
     public void run() {
         String inputLine;
         try {
             while ((inputLine = this.in.readLine()) != null) {
-                System.out.println("Server Protocol Message Listener: Received message");
+                System.out.println("Server ProtocolMessageListener Message Listener: Received message");
                 this.processMessage(inputLine);
-                System.out.println(inputLine);
             }
         } catch (IOException e) {
             System.out.println("Error reading buffer");

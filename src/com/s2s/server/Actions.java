@@ -1,11 +1,16 @@
 package com.s2s.server;
 
+import com.s2s.models.Route;
+import com.s2s.models.Slacker;
+
 import java.lang.reflect.InvocationTargetException;
 
 public class Actions {
 
-    public Actions() {
+    private Slacker slacker = null;
 
+    public Actions(Slacker slacker) {
+        this.slacker = slacker;
     }
 
     public void register(String username, String password) {

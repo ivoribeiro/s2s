@@ -1,9 +1,9 @@
 package com.s2s.server;
 
-import java.io.BufferedReader;
+import com.s2s.models.Slacker;
+import com.s2s.repository.Routes;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -37,11 +37,15 @@ public class Server extends Thread {
             ServerSocket serverSocket = null;
             serverSocket = new ServerSocket(this.tcpPort);
             System.out.println("Server: Tcp Unicast socket listning on " + serverSocket.getInetAddress().getHostAddress() + ":" + serverSocket.getLocalPort());
+            Routes routes = new Routes();
             while (active) {
                 // client connection
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("Server: New client connection on " + clientSocket.getInetAddress().getHostAddress() + " Socket internal port:" + clientSocket.getPort());
-                Protocol protocol = new Protocol(clientSocket, clientSocket.getInputStream(), clientSocket.getOutputStream());
+                String clientHost = clientSocket.getInetAddress().getHostAddress();
+                int clientPort = clientSocket.getPort();
+                System.out.println("Server: New client connection on " + clientHost + " Socket internal port:" + clientPort);
+                Slacker slacker = new Slacker(clientSocket, clientHost, clientPort);
+                ProtocolMessageListener protocol = new ProtocolMessageListener(slacker, routes);
                 protocol.start();
             }
             serverSocket.close();
