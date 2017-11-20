@@ -9,6 +9,7 @@ public class Routes extends Repository<Route> {
         super();
         this.addModel(new Route(VerbEnum.POST, "users", "register", new Class[]{String.class, String.class}, null));
         this.addModel(new Route(VerbEnum.POST, "users/login", "login", new Class[]{String.class, String.class}, null));
+        this.addModel(new Route(VerbEnum.POST, "users/logout", "logout", new Class[]{String.class, String.class}, null));
         this.addModel(new Route(VerbEnum.GET, "users", "getOnlineUsers", new Class[]{}, "logedIn"));
     }
 

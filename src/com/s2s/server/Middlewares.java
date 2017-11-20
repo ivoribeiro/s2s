@@ -1,8 +1,7 @@
-package com.s2s.middlewares;
+package com.s2s.server;
 
 import com.s2s.models.Route;
 import com.s2s.models.Slacker;
-import com.s2s.server.Actions;
 
 import java.lang.reflect.InvocationTargetException;
 

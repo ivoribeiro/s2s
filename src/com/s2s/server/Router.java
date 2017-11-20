@@ -1,6 +1,5 @@
 package com.s2s.server;
 
-import com.s2s.middlewares.Middlewares;
 import com.s2s.models.Route;
 import com.s2s.models.Slacker;
 import com.s2s.repository.Repository;

@@ -32,6 +32,12 @@ public class Actions {
         }
     }
 
+    /**
+     * Authenticates a user
+     *
+     * @param username
+     * @param password
+     */
     public void login(String username, String password) {
         Slacker client = this.clients.exists(username, password);
         if (client != null) {
@@ -40,6 +46,13 @@ public class Actions {
         } else {
             System.out.println("Dados Inválidos");
         }
+    }
+
+    /**
+     * Logout's a user
+     */
+    public void logout() {
+        this.slacker.setLoged(false);
     }
 
     public void getOnlineUsers() {
