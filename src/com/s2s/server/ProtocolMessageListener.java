@@ -10,8 +10,6 @@ import java.util.Map;
 
 public class ProtocolMessageListener extends Thread {
     private Socket client;
-    private BufferedReader in;
-    private BufferedWriter out;
     private Router router;
     private Slacker slacker;
     Map<String, Repository> repos;
@@ -20,16 +18,13 @@ public class ProtocolMessageListener extends Thread {
         super("ProtocolMessageListener Thread");
         this.slacker = slacker;
         this.repos = repos;
-        this.in = new BufferedReader(new InputStreamReader(slacker.getClientSocket().getInputStream()));
-        Writer ouw = new OutputStreamWriter(slacker.getClientSocket().getOutputStream());
-        this.out = new BufferedWriter(ouw);
         this.router = new Router(slacker, repos);
     }
 
     public void run() {
         String inputLine;
         try {
-            while ((inputLine = this.in.readLine()) != null) {
+            while ((inputLine = this.slacker.getIn().readLine()) != null) {
                 System.out.println("Server ProtocolMessageListener Message Listener: Received message");
                 this.processMessage(inputLine);
             }
@@ -48,14 +43,14 @@ public class ProtocolMessageListener extends Thread {
     private void processMessage(String message) throws IOException {
         String[] params = message.split(" ", -1);
         if (params.length < 2) {
-            this.out.write("Error: Invalid number of args" + "\r\n");
-            this.out.flush();
+            this.slacker.getOut().write("Error: Invalid number of args" + "\r\n");
+            this.slacker.getOut().flush();
         } else {
             try {
                 this.router.processRoute(params);
             } catch (Exception error) {
-                this.out.write(error.getMessage() + "\r\n");
-                this.out.flush();
+                this.slacker.getOut().write(error.getMessage() + "\r\n");
+                this.slacker.getOut().flush();
             }
         }
     }

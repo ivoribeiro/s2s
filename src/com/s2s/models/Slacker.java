@@ -1,5 +1,6 @@
 package com.s2s.models;
 
+import java.io.*;
 import java.net.Socket;
 import java.util.UUID;
 
@@ -11,13 +12,18 @@ public class Slacker {
     private String username;
     private String password;
     private boolean loged;
+    private BufferedReader in;
+    private BufferedWriter out;
 
-    public Slacker(Socket clientSocket, String address, int port) {
+    public Slacker(Socket clientSocket, String address, int port) throws IOException {
         this.id = UUID.randomUUID().toString();
         this.clientSocket = clientSocket;
         this.address = address;
         this.port = port;
         this.loged = false;
+        this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        Writer ouw = new OutputStreamWriter(clientSocket.getOutputStream());
+        this.out = new BufferedWriter(ouw);
     }
 
     public String getUsername() {
@@ -46,5 +52,11 @@ public class Slacker {
 
     public boolean isLoged() {
         return this.loged;
+    }
+    public BufferedReader getIn() {
+        return in;
+    }
+    public BufferedWriter getOut() {
+        return out;
     }
 }

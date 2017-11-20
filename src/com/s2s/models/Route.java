@@ -8,6 +8,7 @@ public class Route {
     private String action;
     private Class[] types;
     private String middleware;
+    private String helper;
 
     public Route(VerbEnum verb, String path, String action, Class[] types, String middleware) {
         this.verb = verb;
@@ -15,6 +16,7 @@ public class Route {
         this.action = action;
         this.types = types;
         this.middleware = middleware;
+        this.helper = "Helper not provided";
     }
 
     public String getPath() {
@@ -35,5 +37,13 @@ public class Route {
 
     public String getMiddleware() {
         return this.middleware;
+    }
+
+    public String getHelper() {
+        return helper;
+    }
+
+    public void setHelper(String helper) {
+        this.helper = helper;
     }
 }

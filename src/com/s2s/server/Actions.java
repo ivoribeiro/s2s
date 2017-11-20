@@ -5,7 +5,9 @@ import com.s2s.models.Slacker;
 import com.s2s.repository.Clients;
 import com.s2s.repository.Groups;
 import com.s2s.repository.Repository;
+import com.s2s.repository.Routes;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
@@ -13,12 +15,23 @@ public class Actions {
 
     private Slacker slacker;
     private Clients clients;
+    private Routes routes;
     private Groups groups;
 
     public Actions(Map<String, Repository> repositoryMap, Slacker slacker) {
         this.slacker = slacker;
         this.clients = (Clients) repositoryMap.get("Clients");
+        this.routes = (Routes) repositoryMap.get("Routes");
         this.groups = (Groups) repositoryMap.get("Groups");
+    }
+
+    public void helpers() throws IOException {
+        String message = "";
+        for (Route route : this.routes.getModels()) {
+            message = message + route.getHelper() + "\n";
+        }
+        this.slacker.getOut().write(message + "\r\n");
+        this.slacker.getOut().flush();
     }
 
     public void register(String username, String password) {
