@@ -35,7 +35,8 @@ public class Actions {
     public void login(String username, String password) {
         Slacker client = this.clients.exists(username, password);
         if (client != null) {
-            Slacker newClient=this.clients.login(client);
+            Slacker newClient = this.clients.login(client);
+            System.out.println("Slacker Autenticado");
         } else {
             System.out.println("Dados Inválidos");
         }

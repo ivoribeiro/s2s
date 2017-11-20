@@ -43,4 +43,8 @@ public class Slacker {
     public void setLoged(boolean loged) {
         this.loged = loged;
     }
+
+    public boolean isLoged() {
+        return this.loged;
+    }
 }

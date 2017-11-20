@@ -53,7 +53,7 @@ public class ProtocolMessageListener extends Thread {
         } else {
             try {
                 this.router.processRoute(params);
-            } catch (Error error) {
+            } catch (Exception error) {
                 this.out.write(error.getMessage() + "\r\n");
                 this.out.flush();
             }

@@ -1,5 +1,6 @@
 package com.s2s.server;
 
+import com.s2s.middlewares.Middlewares;
 import com.s2s.models.Route;
 import com.s2s.models.Slacker;
 import com.s2s.repository.Repository;
@@ -11,13 +12,15 @@ import java.util.Map;
 public class Router {
     private Routes routes;
     private Actions actions;
+    private Middlewares middlewares;
 
     public Router(Slacker slacker, Map<String, Repository> repositoryMap) {
         this.routes = (Routes) repositoryMap.get("Routes");
         this.actions = new Actions(repositoryMap, slacker);
+        this.middlewares = new Middlewares(slacker);
     }
 
-    public void processRoute(String[] params) {
+    public void processRoute(String[] params) throws Exception {
         Verb verbClass = null;
         VerbEnum verb = Verb.exists(params[0]);
         //  if the verb exists checks if the route is on routes list
@@ -28,6 +31,19 @@ public class Router {
                     String[] args = new String[0];
                     if (params.length > 2) {
                         args = Arrays.copyOfRange(params, 2, params.length);
+                    }
+                    if (route.getMiddleware() != null) {
+                        try {
+                            this.middlewares.processMiddleware(route);
+                        } catch (Exception ex) {
+                            if (ex instanceof IllegalAccessException) {
+                                throw new Error("Error: Blocked on middleware");
+                            } else {
+                                System.out.println(ex);
+                            }
+                        } catch (Throwable throwable) {
+                            throwable.printStackTrace();
+                        }
                     }
                     this.actions.processAction(route, args);
                 } catch (Exception ex) {
