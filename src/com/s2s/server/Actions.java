@@ -25,13 +25,17 @@ public class Actions {
         this.groups = (Groups) repositoryMap.get("Groups");
     }
 
+    private void sendResponse(String message) throws IOException {
+        this.slacker.getOut().write(message + "\r\n");
+        this.slacker.getOut().flush();
+    }
+
     public void helpers() throws IOException {
         String message = "";
         for (Route route : this.routes.getModels()) {
             message = message + route.getHelper() + "\n";
         }
-        this.slacker.getOut().write(message + "\r\n");
-        this.slacker.getOut().flush();
+        this.sendResponse(message);
     }
 
     public void register(String username, String password) {
@@ -51,13 +55,13 @@ public class Actions {
      * @param username
      * @param password
      */
-    public void login(String username, String password) {
+    public void login(String username, String password) throws IOException {
         Slacker client = this.clients.exists(username, password);
         if (client != null) {
             Slacker newClient = this.clients.login(client);
-            System.out.println("Slacker Autenticado");
+            this.sendResponse("Success:Logged in");
         } else {
-            System.out.println("Dados Inválidos");
+            this.sendResponse("Error:Invalid data");
         }
     }
 
