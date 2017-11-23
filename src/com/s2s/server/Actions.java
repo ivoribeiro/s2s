@@ -1,5 +1,7 @@
 package com.s2s.server;
 
+import com.s2s.Mutual.Protocol;
+import com.s2s.Mutual.ProtocolInterface;
 import com.s2s.models.Route;
 import com.s2s.models.Slacker;
 import com.s2s.repository.Clients;
@@ -11,7 +13,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-public class Actions {
+public class Actions implements ProtocolInterface {
 
     private Slacker slacker;
     private Clients clients;
@@ -25,17 +27,12 @@ public class Actions {
         this.groups = (Groups) repositoryMap.get("Groups");
     }
 
-    private void sendResponse(String message) throws IOException {
-        this.slacker.getOut().write(message + "\r\n");
-        this.slacker.getOut().flush();
-    }
-
     public void helpers() throws IOException {
         String message = "";
         for (Route route : this.routes.getModels()) {
             message = message + route.getHelper() + "\n";
         }
-        this.sendResponse(message);
+        this.slacker.sendResponse(message);
     }
 
     public void register(String username, String password) {
@@ -43,9 +40,9 @@ public class Actions {
             this.slacker.setUsername(username);
             this.slacker.setPassword(password);
             this.clients.addClient(this.slacker);
-            System.out.println("Novo Slacker");
+            this.slacker.sendResponse(Protocol.successMessage("Success register"));
         } else {
-            System.out.println("Username já existe");
+            this.slacker.sendResponse(Protocol.errorMessage("The user already exists"));
         }
     }
 
@@ -55,14 +52,22 @@ public class Actions {
      * @param username
      * @param password
      */
-    public void login(String username, String password) throws IOException {
+    public void login(String username, String password) {
         Slacker client = this.clients.exists(username, password);
         if (client != null) {
             Slacker newClient = this.clients.login(client);
-            this.sendResponse("Success:Logged in");
+            this.slacker.sendResponse(Protocol.successMessage("Success login"));
         } else {
-            this.sendResponse("Error:Invalid data");
+            this.slacker.sendResponse("Invalid data");
         }
+    }
+
+    /**
+     * Get's the online users
+     */
+    @Override
+    public void getOnlineUsers() {
+
     }
 
     /**
@@ -72,8 +77,56 @@ public class Actions {
         this.slacker.setLoged(false);
     }
 
-    public void getOnlineUsers() {
-        System.out.println("Onlineusers");
+    /**
+     * Send a private message to a user
+     *
+     * @param username
+     * @param message
+     */
+    @Override
+    public void sendMessage(String username, String message) {
+
+    }
+
+    /**
+     * Send a group message
+     *
+     * @param groupName
+     * @param message
+     */
+    @Override
+    public void sendGroupMessage(String groupName, String message) {
+
+    }
+
+    /**
+     * Creates a group
+     *
+     * @param name
+     */
+    @Override
+    public void createGroup(String name) {
+
+    }
+
+    /**
+     * Deletes a group
+     *
+     * @param name
+     */
+    @Override
+    public void deleteGroup(String name) {
+
+    }
+
+    /**
+     * Leaves a group
+     *
+     * @param name
+     */
+    @Override
+    public void leaveGroup(String name) {
+
     }
 
     /**

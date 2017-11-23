@@ -1,8 +1,7 @@
 package com.s2s.repository;
 
 import com.s2s.models.Route;
-import com.s2s.server.Router;
-import com.s2s.server.VerbEnum;
+import com.s2s.Mutual.VerbEnum;
 
 public class Routes extends Repository<Route> {
 

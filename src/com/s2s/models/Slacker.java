@@ -53,10 +53,21 @@ public class Slacker {
     public boolean isLoged() {
         return this.loged;
     }
+
     public BufferedReader getIn() {
         return in;
     }
+
     public BufferedWriter getOut() {
         return out;
+    }
+
+    public void sendResponse(String message) {
+        try {
+            this.out.write(message + "\r\n");
+            this.out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

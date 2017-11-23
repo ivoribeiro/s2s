@@ -1,5 +1,7 @@
 package com.s2s.server;
 
+import com.s2s.Mutual.VerbEnum;
+
 public class Verb {
     /**
      * Check if a verb exists

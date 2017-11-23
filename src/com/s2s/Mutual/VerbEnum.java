@@ -1,4 +1,4 @@
-package com.s2s.server;
+package com.s2s.Mutual;
 
 public enum VerbEnum {
     POST {
@@ -19,6 +19,16 @@ public enum VerbEnum {
     DELETE {
         public String toString() {
             return "DELETE";
+        }
+    },
+    SUCCESS {
+        public String toString() {
+            return "SUCCESS";
+        }
+    },
+    ERROR {
+        public String toString() {
+            return "ERROR";
         }
     }
 }

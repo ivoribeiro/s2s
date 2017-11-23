@@ -6,20 +6,24 @@ import java.util.Scanner;
 
 public class Client extends Thread {
 
-    private Server server;
+    private Actions actions;
 
-
-    public Client(Server server) throws IOException {
-        this.server = server;
-        this.menu1();
+    public Client(Actions actions) throws IOException {
+        this.actions = actions;
     }
 
-    public void menu1() throws IOException {
+    public void run() {
+        try {
+            this.menu1();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void menu1() throws Exception {
         boolean run = true;
         while (run) {
-            System.out.println("1-Login");
-            System.out.println("2-Close");
-            System.out.println("Escolha uma das opções anteriores:");
+            Interface.mainMenu();
             Scanner sc = new Scanner(System.in);
             while (!sc.hasNextInt()) {
                 sc.next();
@@ -30,36 +34,42 @@ public class Client extends Thread {
                 System.out.println("Invalid option");
             }
             if (i == 1) {
-                login();
+                register();
             } else {
-                run = false;
+                if (i == 2) {
+                    login();
+                }
             }
         }
 
     }
 
+    private void register() {
+        boolean success = false;
+        //do {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Username");
+        String username = scan.next();
+        System.out.println("Password");
+        String password = scan.next();
+        //} while (!success);
+        this.actions.register(username, password);
+        //System.out.println("Sucess Register, you can login now");
+        //this.server.serving();
+    }
+
     private void login() throws IOException {
         boolean success = false;
-        do {
-            Scanner scan = new Scanner(System.in);
-            System.out.println("Username");
-            String username = scan.next();
-            System.out.println("Password");
-            String password = scan.next();
-            success = this.server.login(username, password);
-        } while (!success);
-        System.out.println("Sucess Login, now you can chat");
-        this.server.serving();
-    }
-
-    public void logedIn() {
-        System.out.println("1-Private Chats");
-        System.out.println("2-Group Chats");
-    }
-
-    public void privateChats() {
-        System.out.println("1-My chats");
-        System.out.println("2-New chat");
+        //do {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Username");
+        String username = scan.next();
+        System.out.println("Password");
+        String password = scan.next();
+        //success = this.server.login(username, password);
+        //} while (!success);
+        System.out.println("Sucess Login, you can chat now");
+        //this.server.serving();
     }
 
 }

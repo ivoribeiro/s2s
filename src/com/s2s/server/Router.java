@@ -1,5 +1,6 @@
 package com.s2s.server;
 
+import com.s2s.Mutual.VerbEnum;
 import com.s2s.models.Route;
 import com.s2s.models.Slacker;
 import com.s2s.repository.Repository;
@@ -19,7 +20,7 @@ public class Router {
         this.middlewares = new Middlewares(slacker);
     }
 
-    public void processRoute(String[] params) throws Exception {
+    public void processRoute(String[] params) throws Error {
         Verb verbClass = null;
         VerbEnum verb = Verb.exists(params[0]);
         //  if the verb exists checks if the route is on routes list

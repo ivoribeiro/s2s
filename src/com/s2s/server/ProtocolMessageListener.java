@@ -25,7 +25,7 @@ public class ProtocolMessageListener extends Thread {
         String inputLine;
         try {
             while ((inputLine = this.slacker.getIn().readLine()) != null) {
-                System.out.println("Server ProtocolMessageListener Message Listener: Received message");
+                System.out.println("Server Protocol Message Listener: Received message");
                 this.processMessage(inputLine);
             }
         } catch (IOException e) {
@@ -48,7 +48,7 @@ public class ProtocolMessageListener extends Thread {
         } else {
             try {
                 this.router.processRoute(params);
-            } catch (Exception error) {
+            } catch (Error error) {
                 this.slacker.getOut().write(error.getMessage() + "\r\n");
                 this.slacker.getOut().flush();
             }
