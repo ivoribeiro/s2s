@@ -24,52 +24,59 @@ public class Client extends Thread {
         boolean run = true;
         while (run) {
             Interface.mainMenu();
-            Scanner sc = new Scanner(System.in);
-            while (!sc.hasNextInt()) {
-                sc.next();
-                System.out.println("Insert a number");
-            }
-            int i = sc.nextInt();
-            if (i > 2) {
+            int choise = Interface.menuChooser();
+            if (choise > 2) {
                 System.out.println("Invalid option");
             }
-            if (i == 1) {
+            if (choise == 1) {
                 register();
             } else {
-                if (i == 2) {
+                if (choise == 2) {
                     login();
                 }
             }
         }
-
     }
 
     private void register() {
-        boolean success = false;
-        //do {
         Scanner scan = new Scanner(System.in);
         System.out.println("Username");
         String username = scan.next();
         System.out.println("Password");
         String password = scan.next();
-        //} while (!success);
         this.actions.register(username, password);
-        //System.out.println("Sucess Register, you can login now");
-        //this.server.serving();
     }
 
     private void login() throws IOException {
-        boolean success = false;
-        //do {
         Scanner scan = new Scanner(System.in);
         System.out.println("Username");
         String username = scan.next();
         System.out.println("Password");
         String password = scan.next();
-        //success = this.server.login(username, password);
-        //} while (!success);
-        System.out.println("Sucess Login, you can chat now");
-        //this.server.serving();
+        this.actions.login(username, password);
+        this.logedIn();
+    }
+
+    private void logedIn() {
+        Interface.logedIn();
+        int choise = Interface.menuChooser();
+        if (choise == 1) {
+            this.privateChats();
+        } else {
+            if (choise == 2) {
+            }
+        }
+    }
+
+    private void privateChats() {
+        Interface.privateChats();
+        this.actions.getOnlineUsers();
+        int choise = Interface.menuChooser();
+    }
+
+    private void groupChats() {
+        Interface.groupChats();
+        int choise = Interface.menuChooser();
     }
 
 }

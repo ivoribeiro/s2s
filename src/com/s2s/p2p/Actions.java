@@ -40,7 +40,8 @@ public class Actions implements ProtocolInterface {
      */
     @Override
     public void getOnlineUsers() {
-
+        String onlineUsersMessage = Protocol.onlineUsers();
+        mainServerMessageHandler.request(onlineUsersMessage);
     }
 
     /**

@@ -28,7 +28,7 @@ public class MainServerMessageHandler extends Thread {
             this.out.write(message + "\r\n");
             this.out.flush();
         } catch (IOException e) {
-            System.out.println("Erro ao enviar mensagem");
+            System.out.println("Error sending the request");
             e.printStackTrace();
         }
     }
