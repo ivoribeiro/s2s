@@ -42,9 +42,20 @@ public class Clients extends Repository<Slacker> {
         return this.getModels().get(index);
     }
 
-    public Slacker login(Slacker slacker) {
+    public Slacker login(Slacker slacker, int serverPort) {
         Slacker old = slacker;
         slacker.setLoged(true);
+        slacker.setPort(serverPort);
         return this.updateClient(old, slacker);
+    }
+
+    public Clients onlineUsers() {
+        Clients online = new Clients();
+        for (Slacker slacker : this.getModels()) {
+            if (slacker.isLoged()) {
+                online.addClient(slacker);
+            }
+        }
+        return online;
     }
 }

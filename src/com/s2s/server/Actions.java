@@ -11,6 +11,7 @@ import com.s2s.repository.Routes;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Actions implements ProtocolInterface {
@@ -46,16 +47,21 @@ public class Actions implements ProtocolInterface {
         }
     }
 
+    public void login(String username, String password, String serverPort) {
+        Integer port = Integer.parseInt(serverPort);
+        this.login(username, password, port);
+    }
+
     /**
      * Authenticates a user
      *
      * @param username
      * @param password
      */
-    public void login(String username, String password) {
+    public void login(String username, String password, int serverPort) {
         Slacker client = this.clients.exists(username, password);
         if (client != null) {
-            Slacker newClient = this.clients.login(client);
+            Slacker newClient = this.clients.login(client, serverPort);
             this.slacker.sendResponse(Protocol.successMessage("Success login"));
         } else {
             this.slacker.sendResponse("Invalid data");
@@ -67,7 +73,16 @@ public class Actions implements ProtocolInterface {
      */
     @Override
     public void getOnlineUsers() {
-
+        Clients clients = this.clients.onlineUsers();
+        if (clients.getModels().size() != 0) {
+            String message = "";
+            for (Slacker slacker : clients.getModels()) {
+                message = message + slacker + "\n";
+            }
+            this.slacker.sendResponse(Protocol.successMessage(message));
+        } else {
+            this.slacker.sendResponse(Protocol.successMessage("No online users"));
+        }
     }
 
     /**

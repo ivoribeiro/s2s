@@ -63,7 +63,7 @@ public class Server extends Thread {
                 String clientHost = clientSocket.getInetAddress().getHostAddress();
                 int clientPort = clientSocket.getPort();
                 System.out.println("Server: New client connection on " + clientHost + " Socket internal port:" + clientPort);
-                Slacker slacker = new Slacker(clientSocket, clientHost, clientPort);
+                Slacker slacker = new Slacker(clientSocket);
                 //adds this new connection to clients repository
                 ProtocolMessageListener protocol = new ProtocolMessageListener(repos, slacker);
                 protocol.start();

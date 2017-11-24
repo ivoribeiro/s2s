@@ -15,15 +15,18 @@ public class Slacker {
     private BufferedReader in;
     private BufferedWriter out;
 
-    public Slacker(Socket clientSocket, String address, int port) throws IOException {
+    public Slacker(Socket clientSocket) throws IOException {
         this.id = UUID.randomUUID().toString();
         this.clientSocket = clientSocket;
-        this.address = address;
-        this.port = port;
+        this.address = clientSocket.getInetAddress().getHostName();
         this.loged = false;
         this.in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         Writer ouw = new OutputStreamWriter(clientSocket.getOutputStream());
         this.out = new BufferedWriter(ouw);
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 
     public String getUsername() {
@@ -69,5 +72,9 @@ public class Slacker {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String toString() {
+        return this.username + " " + this.address + ":" + this.port;
     }
 }

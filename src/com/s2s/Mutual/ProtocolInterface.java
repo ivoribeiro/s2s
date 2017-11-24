@@ -18,7 +18,7 @@ public interface ProtocolInterface {
      * @param username
      * @param password
      */
-    public void login(String username, String password);
+    public void login(String username, String password, int serverPort);
 
     /**
      * Get's the online users

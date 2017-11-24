@@ -1,11 +1,13 @@
 package com.s2s.server;
 
+import com.s2s.Mutual.Protocol;
 import com.s2s.Mutual.VerbEnum;
 import com.s2s.models.Route;
 import com.s2s.models.Slacker;
 import com.s2s.repository.Repository;
 import com.s2s.repository.Routes;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -46,15 +48,21 @@ public class Router {
                         }
                     }
                     this.actions.processAction(route, args);
-                } catch (Exception ex) {
-                    if (ex instanceof IllegalArgumentException) {
-                        throw new Error("Error: Wrong action params number");
-                    } else {
-                        System.out.println(ex);
-                    }
+                } catch (IllegalArgumentException ex) {
+                    throw new Error("Wrong action params number");
+                } catch (InvocationTargetException ex) {
+                    Throwable real = ex.getTargetException();
+                    real.printStackTrace();
+                    throw new Error(Protocol.errorMessage("Internal server error"));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    throw new Error(Protocol.errorMessage("IllegalAccessException"));
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                    throw new Error(Protocol.errorMessage("NoSuchMethodException"));
                 }
             } else {
-                throw new Error("Error: Route don't exists");
+                throw new Error("Route don't exists");
             }
         } else {
             throw new Error("Error: Unknown verb");

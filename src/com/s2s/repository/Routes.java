@@ -13,7 +13,7 @@ public class Routes extends Repository<Route> {
         Route r2 = new Route(VerbEnum.POST, "users", "register", new Class[]{String.class, String.class}, null);
         r2.setHelper("Create's a new user");
         this.addModel(r2);
-        Route r3 = new Route(VerbEnum.POST, "users/login", "login", new Class[]{String.class, String.class}, null);
+        Route r3 = new Route(VerbEnum.POST, "users/login", "login", new Class[]{String.class, String.class, String.class}, null);
         r3.setHelper("Authenticate's user");
         this.addModel(r3);
         Route r4 = new Route(VerbEnum.POST, "users/logout", "logout", new Class[]{String.class, String.class}, "logedIn");

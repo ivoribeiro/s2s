@@ -51,8 +51,8 @@ public class Protocol {
      * @param password
      * @return
      */
-    public static String login(String username, String password) {
-        return VerbEnum.POST + " " + "users/login" + " " + username + " " + password;
+    public static String login(String username, String password, int serverPort) {
+        return VerbEnum.POST + " " + "users/login" + " " + username + " " + password + " " + serverPort;
     }
 
     /**

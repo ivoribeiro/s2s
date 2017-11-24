@@ -7,9 +7,11 @@ import java.util.Scanner;
 public class Client extends Thread {
 
     private Actions actions;
+    private Integer port;
 
-    public Client(Actions actions) throws IOException {
+    public Client(Actions actions, Integer port) throws IOException {
         this.actions = actions;
+        this.port = port;
     }
 
     public void run() {
@@ -53,8 +55,9 @@ public class Client extends Thread {
         String username = scan.next();
         System.out.println("Password");
         String password = scan.next();
-        this.actions.login(username, password);
+        this.actions.login(username, password, this.port);
         this.logedIn();
+        new Serving(this.port).start();
     }
 
     private void logedIn() {

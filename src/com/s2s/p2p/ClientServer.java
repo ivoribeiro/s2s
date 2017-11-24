@@ -9,17 +9,20 @@ public class ClientServer extends Thread {
     private Socket mainServerSocket;
     private String mainServerHost;
     private int mainServerPort;
+    private int serverPort;
     private static int DEFAULT_MAIN_SERVER_PORT = 1024;
+    private static int DEFAULT_SERVER_PORT = 2048;
     private static String DEFAULT_MAIN_SERVER_HOST = "localhost";
     private boolean closed = false;
 
     public static void main(String[] args) {
-        new ClientServer(DEFAULT_MAIN_SERVER_HOST, DEFAULT_MAIN_SERVER_PORT).start();
+        new ClientServer(DEFAULT_MAIN_SERVER_HOST, DEFAULT_MAIN_SERVER_PORT, DEFAULT_SERVER_PORT).start();
     }
 
-    public ClientServer(String mainServerHost, int mainServerPort) {
+    public ClientServer(String mainServerHost, int mainServerPort, int serverPort) {
         this.mainServerHost = mainServerHost;
         this.mainServerPort = mainServerPort;
+        this.serverPort = serverPort;
     }
 
     /**
@@ -36,7 +39,7 @@ public class ClientServer extends Thread {
                             , this.mainServerSocket.getOutputStream());
                     mainServerMessageHandler.start();
                     Actions actions = new Actions(mainServerMessageHandler);
-                    new Client(actions).start();
+                    new Client(actions, this.serverPort).start();
                 } catch (IOException e) {
                     System.err.println("IOException:  " + e);
                 }

@@ -30,8 +30,8 @@ public class Actions implements ProtocolInterface {
      * @param password
      */
     @Override
-    public void login(String username, String password) {
-        String loginMessage = Protocol.login(username, password);
+    public void login(String username, String password, int serverPort) {
+        String loginMessage = Protocol.login(username, password, serverPort);
         mainServerMessageHandler.request(loginMessage);
     }
 
