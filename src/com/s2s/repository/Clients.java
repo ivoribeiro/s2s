@@ -40,6 +40,13 @@ public class Clients extends Repository<String, Slacker> {
         return this.updateClient(old, slacker);
     }
 
+    public boolean logout(Slacker slacker) {
+        Slacker old = slacker;
+        slacker.setLoged(false);
+        Slacker updated = this.updateClient(old, slacker);
+        return updated != null;
+    }
+
     public Clients onlineUsers() {
         Clients online = new Clients();
         for (Map.Entry<String, Slacker> entry : this.getModels().entrySet()) {

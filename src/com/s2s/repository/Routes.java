@@ -36,7 +36,7 @@ public class Routes extends Repository<String, Route> {
         verb = VerbEnum.POST;
         path = "users/logout";
         key = verb + path;
-        Route r4 = new Route(verb, path, "logout", new Class[]{String.class, String.class}, "logedIn");
+        Route r4 = new Route(verb, path, "logout", new Class[]{}, "logedIn");
         r4.setHelper("Logout's the authenticated user");
         this.addModel(key, r4);
 

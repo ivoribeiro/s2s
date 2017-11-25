@@ -68,6 +68,15 @@ public class Actions implements ProtocolInterface {
     }
 
     /**
+     * Logout's a user
+     */
+    public void logout() {
+        if (this.clients.logout(this.slacker)) {
+            this.slacker.sendResponse(Protocol.successMessage("successLogout"));
+        } else this.slacker.sendResponse(Protocol.errorMessage("errorLogout"));
+    }
+
+    /**
      * Get's the online users
      */
     @Override
@@ -79,17 +88,10 @@ public class Actions implements ProtocolInterface {
                 Slacker slacker = entry.getValue();
                 message.append(slacker).append("\n");
             }
-            this.slacker.sendResponse(Protocol.successMessage(message.toString()));
+            this.slacker.sendResponse(Protocol.successMessage(message.toString().trim()));
         } else {
             this.slacker.sendResponse(Protocol.infoMessage("No online users"));
         }
-    }
-
-    /**
-     * Logout's a user
-     */
-    public void logout() {
-        this.slacker.setLoged(false);
     }
 
     /**

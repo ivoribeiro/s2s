@@ -38,8 +38,11 @@ public class ClientServer extends Thread {
                     MainServerMessageHandler mainServerMessageHandler = new MainServerMessageHandler(this.mainServerSocket.getInputStream()
                             , this.mainServerSocket.getOutputStream());
                     mainServerMessageHandler.start();
-                    Actions actions = new Actions(mainServerMessageHandler);
-                    new Client(actions, this.serverPort).start();
+                    while (!closed) {
+                        mainServerMessageHandler.request(inputLine.readLine().trim());
+                    }
+                    // Actions actions = new Actions(mainServerMessageHandler);
+                    //new Client(actions).start();
                 } catch (IOException e) {
                     System.err.println("IOException:  " + e);
                 }
