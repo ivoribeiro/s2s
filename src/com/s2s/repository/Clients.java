@@ -1,12 +1,12 @@
 package com.s2s.repository;
 
-import com.s2s.models.Route;
 import com.s2s.models.Slacker;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Clients extends Repository<Slacker> {
-    public Clients(ArrayList<Slacker> slackers) {
+public class Clients extends Repository<String, Slacker> {
+    public Clients(HashMap<String, Slacker> slackers) {
         super(slackers);
     }
 
@@ -15,31 +15,22 @@ public class Clients extends Repository<Slacker> {
     }
 
     public void addClient(Slacker slacker) {
-        this.addModel(slacker);
+        this.addModel(slacker.getUsername(), slacker);
     }
 
-    public Slacker exists(String username) {
-        for (Slacker slacker : this.getModels()) {
-            if (slacker.getUsername().equals(username)) {
-                return slacker;
-            }
-        }
-        return null;
-    }
-
-    public Slacker exists(String username, String password) {
-        for (Slacker slacker : this.getModels()) {
-            if (slacker.getUsername().equals(username) && slacker.getPassword().equals(password)) {
-                return slacker;
-            }
+    public Slacker validate(String username, String password) {
+        Slacker exists = this.exists(username);
+        if (exists != null) {
+            if (exists.getUsername().equals(username) && exists.getPassword().equals(password)) {
+                return exists;
+            } else return null;
         }
         return null;
     }
 
     private Slacker updateClient(Slacker old, Slacker newOne) {
-        int index = this.getModels().indexOf(old);
-        this.getModels().set(index, newOne);
-        return this.getModels().get(index);
+        this.getModels().replace(old.getUsername(), newOne);
+        return this.getModels().get(newOne.getUsername());
     }
 
     public Slacker login(Slacker slacker, int serverPort) {
@@ -51,7 +42,8 @@ public class Clients extends Repository<Slacker> {
 
     public Clients onlineUsers() {
         Clients online = new Clients();
-        for (Slacker slacker : this.getModels()) {
+        for (Map.Entry<String, Slacker> entry : this.getModels().entrySet()) {
+            Slacker slacker = entry.getValue();
             if (slacker.isLoged()) {
                 online.addClient(slacker);
             }

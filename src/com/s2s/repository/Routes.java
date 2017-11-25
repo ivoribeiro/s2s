@@ -2,26 +2,50 @@ package com.s2s.repository;
 
 import com.s2s.models.Route;
 import com.s2s.Mutual.VerbEnum;
+import com.s2s.models.Slacker;
 
-public class Routes extends Repository<Route> {
+import java.util.HashMap;
+import java.util.Map;
+
+public class Routes extends Repository<String, Route> {
 
     public Routes() {
         super();
-        Route r1 = new Route(VerbEnum.GET, "help", "helpers", new Class[]{}, null);
+
+        VerbEnum verb = VerbEnum.GET;
+        String path = "help";
+        String key = verb + path;
+        Route r1 = new Route(verb, path, "helpers", new Class[]{}, null);
         r1.setHelper("Return the server protocol helpers");
-        this.addModel(r1);
-        Route r2 = new Route(VerbEnum.POST, "users", "register", new Class[]{String.class, String.class}, null);
+        this.addModel(key, r1);
+
+        verb = VerbEnum.POST;
+        path = "users";
+        key = verb + path;
+        Route r2 = new Route(verb, path, "register", new Class[]{String.class, String.class}, null);
         r2.setHelper("Create's a new user");
-        this.addModel(r2);
-        Route r3 = new Route(VerbEnum.POST, "users/login", "login", new Class[]{String.class, String.class, String.class}, null);
+        this.addModel(key, r2);
+
+        verb = VerbEnum.POST;
+        path = "users/login";
+        key = verb + path;
+        Route r3 = new Route(verb, path, "login", new Class[]{String.class, String.class}, null);
         r3.setHelper("Authenticate's user");
-        this.addModel(r3);
-        Route r4 = new Route(VerbEnum.POST, "users/logout", "logout", new Class[]{String.class, String.class}, "logedIn");
+        this.addModel(key, r3);
+
+        verb = VerbEnum.POST;
+        path = "users/logout";
+        key = verb + path;
+        Route r4 = new Route(verb, path, "logout", new Class[]{String.class, String.class}, "logedIn");
         r4.setHelper("Logout's the authenticated user");
-        this.addModel(r4);
-        Route r5 = new Route(VerbEnum.GET, "users", "getOnlineUsers", new Class[]{}, "logedIn");
+        this.addModel(key, r4);
+
+        verb = VerbEnum.GET;
+        path = "users";
+        key = verb + path;
+        Route r5 = new Route(verb, path, "getOnlineUsers", new Class[]{}, "logedIn");
         r5.setHelper("Get's all the online users");
-        this.addModel(r5);
+        this.addModel(key, r5);
     }
 
     /**
@@ -32,11 +56,6 @@ public class Routes extends Repository<Route> {
      * @return
      */
     public Route exists(VerbEnum verb, String path) {
-        for (Route route : this.getModels()) {
-            if (route.getVerb().equals(verb) && route.getPath().equals(path)) {
-                return route;
-            }
-        }
-        return null;
+        return super.exists(verb + path);
     }
 }

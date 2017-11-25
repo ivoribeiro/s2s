@@ -2,27 +2,32 @@ package com.s2s.repository;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class Repository<T> {
-    ArrayList<T> models = null;
+public class Repository<K, V> {
+    HashMap<K, V> models = null;
 
-    public Repository(ArrayList<T> models) {
+    public Repository(HashMap<K, V> models) {
         this.models = models;
     }
 
     public Repository() {
-        this.models = new ArrayList<T>();
+        this.models = new HashMap<>();
     }
 
-    public void setModels(ArrayList<T> models) {
+    public void setModels(HashMap<K, V> models) {
         this.models = models;
     }
 
-    public void addModel(T model) {
-        this.models.add(model);
+    public void addModel(K key, V model) {
+        this.models.put(key, model);
     }
 
-    public ArrayList<T> getModels() {
+    public HashMap<K, V> getModels() {
         return models;
+    }
+
+    public V exists(K k) {
+        return this.getModels().getOrDefault(k, null);
     }
 }

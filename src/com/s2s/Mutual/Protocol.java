@@ -23,6 +23,16 @@ public class Protocol {
     }
 
     /**
+     * Returns a info message
+     *
+     * @param message
+     * @return
+     */
+    public static String infoMessage(String message) {
+        return VerbEnum.INFO + ":" + message;
+    }
+
+    /**
      * Returns a error message
      *
      * @param message
@@ -51,8 +61,8 @@ public class Protocol {
      * @param password
      * @return
      */
-    public static String login(String username, String password, int serverPort) {
-        return VerbEnum.POST + " " + "users/login" + " " + username + " " + password + " " + serverPort;
+    public static String login(String username, String password) {
+        return VerbEnum.POST + " " + "users/login" + " " + username + " " + password;
     }
 
     /**

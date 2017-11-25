@@ -2,12 +2,14 @@ package com.s2s.server;
 
 import com.s2s.Mutual.Protocol;
 import com.s2s.Mutual.ProtocolInterface;
+import com.s2s.models.Group;
 import com.s2s.models.Route;
 import com.s2s.models.Slacker;
 import com.s2s.repository.Clients;
 import com.s2s.repository.Groups;
 import com.s2s.repository.Repository;
 import com.s2s.repository.Routes;
+import utils.PortGen;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -30,26 +32,23 @@ public class Actions implements ProtocolInterface {
 
     public void helpers() throws IOException {
         String message = "";
-        for (Route route : this.routes.getModels()) {
+        for (Map.Entry<String, Route> entry : this.routes.getModels().entrySet()) {
+            Route route = entry.getValue();
             message = message + route.getHelper() + "\n";
         }
-        this.slacker.sendResponse(message);
+        this.slacker.sendResponse(Protocol.successMessage(message));
     }
 
     public void register(String username, String password) {
         if (this.clients.exists(username) == null) {
+            //TODO create user dir and saves in the file
             this.slacker.setUsername(username);
             this.slacker.setPassword(password);
             this.clients.addClient(this.slacker);
-            this.slacker.sendResponse(Protocol.successMessage("Success register"));
+            this.slacker.sendResponse(Protocol.successMessage("successRegister"));
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("The user already exists"));
         }
-    }
-
-    public void login(String username, String password, String serverPort) {
-        Integer port = Integer.parseInt(serverPort);
-        this.login(username, password, port);
     }
 
     /**
@@ -58,13 +57,13 @@ public class Actions implements ProtocolInterface {
      * @param username
      * @param password
      */
-    public void login(String username, String password, int serverPort) {
-        Slacker client = this.clients.exists(username, password);
+    public void login(String username, String password) {
+        Slacker client = this.clients.validate(username, password);
         if (client != null) {
-            Slacker newClient = this.clients.login(client, serverPort);
-            this.slacker.sendResponse(Protocol.successMessage("Success login"));
+            this.clients.login(client, PortGen.getMultiCastPort());
+            this.slacker.sendResponse(Protocol.successMessage("successLogin"));
         } else {
-            this.slacker.sendResponse("Invalid data");
+            this.slacker.sendResponse(Protocol.errorMessage("invalidData"));
         }
     }
 
@@ -75,13 +74,14 @@ public class Actions implements ProtocolInterface {
     public void getOnlineUsers() {
         Clients clients = this.clients.onlineUsers();
         if (clients.getModels().size() != 0) {
-            String message = "";
-            for (Slacker slacker : clients.getModels()) {
-                message = message + slacker + "\n";
+            StringBuilder message = new StringBuilder();
+            for (Map.Entry<String, Slacker> entry : this.clients.getModels().entrySet()) {
+                Slacker slacker = entry.getValue();
+                message.append(slacker).append("\n");
             }
-            this.slacker.sendResponse(Protocol.successMessage(message));
+            this.slacker.sendResponse(Protocol.successMessage(message.toString()));
         } else {
-            this.slacker.sendResponse(Protocol.successMessage("No online users"));
+            this.slacker.sendResponse(Protocol.infoMessage("No online users"));
         }
     }
 

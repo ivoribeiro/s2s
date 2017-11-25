@@ -1,4 +1,4 @@
-package com.s2s.p2p;
+package com.s2s.client;
 
 import com.s2s.Mutual.Protocol;
 import com.s2s.Mutual.ProtocolInterface;
@@ -30,8 +30,8 @@ public class Actions implements ProtocolInterface {
      * @param password
      */
     @Override
-    public void login(String username, String password, int serverPort) {
-        String loginMessage = Protocol.login(username, password, serverPort);
+    public void login(String username, String password) {
+        String loginMessage = Protocol.login(username, password);
         mainServerMessageHandler.request(loginMessage);
     }
 

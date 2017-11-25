@@ -30,6 +30,11 @@ public enum VerbEnum {
         public String toString() {
             return "ERROR";
         }
+    },
+    INFO {
+        public String toString() {
+            return "INFO";
+        }
     }
 }
 

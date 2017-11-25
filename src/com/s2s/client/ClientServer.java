@@ -1,4 +1,4 @@
-package com.s2s.p2p;
+package com.s2s.client;
 
 import java.io.*;
 import java.net.Socket;
