@@ -22,7 +22,7 @@ public class Routes extends Repository<String, Route> {
         verb = VerbEnum.POST;
         path = "users";
         key = verb + path;
-        Route r2 = new Route(verb, path, "register", new Class[]{String.class, String.class}, null);
+        Route r2 = new Route(verb, path, "register", new Class[]{String.class, String.class}, "logedOut");
         r2.setHelper("Create's a new user");
         this.addModel(key, r2);
 

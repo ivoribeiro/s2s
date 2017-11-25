@@ -21,6 +21,14 @@ public class Middlewares {
         }
     }
 
+    public boolean logedOut() throws IllegalAccessException {
+        if (!this.slacker.isLoged()) {
+            return true;
+        } else {
+            throw new IllegalAccessException();
+        }
+    }
+
     public void processMiddleware(Route route) throws Throwable {
         try {
             Middlewares.class.getMethod(route.getMiddleware()).invoke(this);
