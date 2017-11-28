@@ -95,4 +95,14 @@ public class Actions implements ProtocolInterface {
     public void leaveGroup(String name) {
 
     }
+
+    /**
+     * Leaves a group
+     *
+     * @param name
+     */
+    @Override
+    public void joinGroup(String name) {
+
+    }
 }

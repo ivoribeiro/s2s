@@ -61,4 +61,10 @@ public interface ProtocolInterface {
      * @param name
      */
     public void leaveGroup(String name);
+
+    /**
+     * Leaves a group
+     * @param name
+     */
+    public void joinGroup(String name);
 }

@@ -23,6 +23,10 @@ public class Repository<K, V> {
         this.models.put(key, model);
     }
 
+    public V delete(K key) {
+        return this.models.remove(key);
+    }
+
     public HashMap<K, V> getModels() {
         return models;
     }

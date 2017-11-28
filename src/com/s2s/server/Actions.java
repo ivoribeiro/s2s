@@ -138,21 +138,38 @@ public class Actions implements ProtocolInterface {
     /**
      * Creates a group
      *
-     * @param name
+     * @param groupName
      */
     @Override
-    public void createGroup(String name) {
-
+    public void createGroup(String groupName) {
+        Group group = this.groups.exists(groupName);
+        if (group == null) {
+            Group newOne = new Group(groupName, this.slacker);
+            this.groups.addModel(newOne.getName(), newOne);
+            slacker.sendResponse(Protocol.successMessage("createdGroup"));
+        } else {
+            this.slacker.sendResponse(Protocol.errorMessage("The group name already exists"));
+        }
     }
 
     /**
      * Deletes a group
      *
-     * @param name
+     * @param groupName
      */
     @Override
-    public void deleteGroup(String name) {
-
+    public void deleteGroup(String groupName) {
+        Group group = this.groups.exists(groupName);
+        if (group != null) {
+            if (group.getClients().getModels().size() == 0) {
+                this.groups.delete(groupName);
+                slacker.sendResponse(Protocol.successMessage("deletedGroup"));
+            } else {
+                slacker.sendResponse(Protocol.errorMessage("notEmptyGroup"));
+            }
+        } else {
+            this.slacker.sendResponse(Protocol.errorMessage("The group doesn't exists"));
+        }
     }
 
     /**
@@ -162,6 +179,16 @@ public class Actions implements ProtocolInterface {
      */
     @Override
     public void leaveGroup(String name) {
+
+    }
+
+    /**
+     * Leaves a group
+     *
+     * @param name
+     */
+    @Override
+    public void joinGroup(String name) {
 
     }
 
