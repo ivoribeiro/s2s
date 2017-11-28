@@ -14,8 +14,8 @@ public class Clients extends Repository<String, Slacker> {
         super();
     }
 
-    public void addClient(Slacker slacker) {
-        this.addModel(slacker.getUsername(), slacker);
+    public void addClient(Slacker client) {
+        this.addModel(client.getUsername(), client);
     }
 
     public Slacker validate(String username, String password) {

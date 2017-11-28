@@ -15,11 +15,18 @@ public class Router {
     private Routes routes;
     private Actions actions;
     private Middlewares middlewares;
+    private Slacker slacker;
 
     public Router(Slacker slacker, Map<String, Repository> repositoryMap) {
         this.routes = (Routes) repositoryMap.get("Routes");
-        this.actions = new Actions(repositoryMap, slacker);
+        this.slacker = slacker;
+        this.actions = new Actions(this, repositoryMap, slacker);
         this.middlewares = new Middlewares(slacker);
+    }
+
+    public void updateSlacker(Slacker newOne) {
+        this.slacker = newOne;
+        this.middlewares.updateSlacker(newOne);
     }
 
     public void processRoute(String[] params) throws Error {

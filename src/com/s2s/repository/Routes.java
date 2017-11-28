@@ -46,6 +46,13 @@ public class Routes extends Repository<String, Route> {
         Route r5 = new Route(verb, path, "getOnlineUsers", new Class[]{}, "logedIn");
         r5.setHelper("Get's all the online users");
         this.addModel(key, r5);
+
+        verb = VerbEnum.POST;
+        path = "users/message";
+        key = verb + path;
+        Route r6 = new Route(verb, path, "sendMessage", new Class[]{String.class, String.class}, "logedIn");
+        r6.setHelper("Send's a message to an online user");
+        this.addModel(key, r6);
     }
 
     /**

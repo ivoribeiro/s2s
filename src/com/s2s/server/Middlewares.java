@@ -13,6 +13,10 @@ public class Middlewares {
         this.slacker = slacker;
     }
 
+    public void updateSlacker(Slacker newOne) {
+        this.slacker = newOne;
+    }
+
     public boolean logedIn() throws IllegalAccessException {
         if (this.slacker.isLoged()) {
             return true;
