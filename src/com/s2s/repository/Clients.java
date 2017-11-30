@@ -57,4 +57,5 @@ public class Clients extends Repository<String, Slacker> {
         }
         return online;
     }
+
 }

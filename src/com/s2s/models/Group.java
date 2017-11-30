@@ -36,4 +36,8 @@ public class Group {
         return this.slackers;
     }
 
+    public void leave(Slacker slacker) {
+        this.getClients().delete(slacker.getUsername());
+    }
+
 }

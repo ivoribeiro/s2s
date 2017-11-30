@@ -175,21 +175,43 @@ public class Actions implements ProtocolInterface {
     /**
      * Leaves a group
      *
-     * @param name
+     * @param groupName
      */
     @Override
-    public void leaveGroup(String name) {
-
+    public void leaveGroup(String groupName) {
+        Group group = this.groups.exists(groupName);
+        if (group != null) {
+            group.leave(this.slacker);
+            slacker.sendResponse(Protocol.successMessage("leavedGroup"));
+            // if is empty now, delete the group
+            if (group.getClients().getModels().size() == 0) {
+                this.deleteGroup(groupName);
+                slacker.sendResponse(Protocol.successMessage("deletedGroup"));
+            }
+        } else {
+            this.slacker.sendResponse(Protocol.errorMessage("The group doesn't exists"));
+        }
     }
 
     /**
      * Leaves a group
      *
-     * @param name
+     * @param groupName
      */
     @Override
-    public void joinGroup(String name) {
+    public void joinGroup(String groupName) {
+        Group group = this.groups.exists(groupName);
+        if (group != null) {
 
+            if (group.getClients().exists(this.slacker.getUsername()) != null) {
+                this.slacker.sendResponse(Protocol.errorMessage("Already at the group"));
+            } else {
+                group.getClients().addClient(this.slacker);
+                this.slacker.sendResponse(Protocol.successMessage("successAdded"));
+            }
+        } else {
+            this.slacker.sendResponse(Protocol.errorMessage("The group doesn't exists"));
+        }
     }
 
     /**
