@@ -132,7 +132,18 @@ public class Actions implements ProtocolInterface {
      */
     @Override
     public void sendGroupMessage(String groupName, String message) {
-
+        Group group = this.groups.exists(groupName);
+        if (group != null) {
+            try {
+                group.sendMessage(message);
+                slacker.sendResponse(Protocol.successMessage("successGroupMessage"));
+            } catch (IOException e) {
+                slacker.sendResponse(Protocol.errorMessage("Impossible to send the message to the group"));
+                e.printStackTrace();
+            }
+        } else {
+            slacker.sendResponse(Protocol.errorMessage("The group doesn't exist"));
+        }
     }
 
     /**
@@ -145,7 +156,8 @@ public class Actions implements ProtocolInterface {
         Group group = this.groups.exists(groupName);
         if (group == null) {
             Group newOne = new Group(groupName, this.slacker);
-            this.groups.addModel(newOne.getName(), newOne);
+            newOne.run();
+            this.groups.addModel(newOne.getGroupName(), newOne);
             slacker.sendResponse(Protocol.successMessage("createdGroup"));
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("The group name already exists"));

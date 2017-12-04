@@ -68,26 +68,33 @@ public class Routes extends Repository<String, Route> {
         r8.setHelper("Get existent groups");
         this.addModel(key, r8);
 
+        verb = VerbEnum.POST;
+        path = "groups/message";
+        key = verb + path;
+        Route r9 = new Route(verb, path, "sendGroupMessage", new Class[]{String.class, String.class}, "logedIn");
+        r9.setHelper("Send's a message to a group");
+        this.addModel(key, r9);
+
         verb = VerbEnum.DELETE;
         path = "groups";
         key = verb + path;
-        Route r9 = new Route(verb, path, "deleteGroup", new Class[]{String.class}, "logedIn");
-        r9.setHelper("Delete a group");
-        this.addModel(key, r9);
+        Route r10 = new Route(verb, path, "deleteGroup", new Class[]{String.class}, "logedIn");
+        r10.setHelper("Delete a group");
+        this.addModel(key, r10);
 
         verb = VerbEnum.POST;
         path = "groups/join";
         key = verb + path;
-        Route r10 = new Route(verb, path, "joinGroup", new Class[]{String.class}, "logedIn");
-        r10.setHelper("Join a group");
-        this.addModel(key, r10);
+        Route r11 = new Route(verb, path, "joinGroup", new Class[]{String.class}, "logedIn");
+        r11.setHelper("Join a group");
+        this.addModel(key, r11);
         verb = VerbEnum.POST;
 
         path = "groups/leave";
         key = verb + path;
-        Route r11 = new Route(verb, path, "leaveGroup", new Class[]{String.class}, "logedIn");
-        r11.setHelper("Leaves a group");
-        this.addModel(key, r11);
+        Route r12 = new Route(verb, path, "leaveGroup", new Class[]{String.class}, "logedIn");
+        r12.setHelper("Leaves a group");
+        this.addModel(key, r12);
 
     }
 
