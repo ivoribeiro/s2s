@@ -38,7 +38,7 @@ public class Actions implements ProtocolInterface {
             Route route = entry.getValue();
             message = message + route.getHelper() + "\n";
         }
-        this.slacker.sendResponse(Protocol.successMessage(message));
+        this.slacker.sendResponse(Protocol.successMessage("successMessage", message));
     }
 
     public void register(String username, String password) {
@@ -49,7 +49,7 @@ public class Actions implements ProtocolInterface {
                 newOne.setUsername(username);
                 newOne.setPassword(password);
                 this.clients.addClient(newOne);
-                this.slacker.sendResponse(Protocol.successMessage("successRegister"));
+                this.slacker.sendResponse(Protocol.successMessage("successMessage", "Success register"));
             } catch (IOException e) {
                 this.slacker.sendResponse(Protocol.errorMessage("IO error"));
                 e.printStackTrace();
@@ -71,7 +71,7 @@ public class Actions implements ProtocolInterface {
             this.clients.login(client, PortGen.getMultiCastPort());
             this.router.updateSlacker(client);
             this.slacker = client;
-            this.slacker.sendResponse(Protocol.successMessage("successLogin"));
+            this.slacker.sendResponse(Protocol.successMessage("successMessage", "successLogin"));
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("invalidData"));
         }
@@ -82,7 +82,7 @@ public class Actions implements ProtocolInterface {
      */
     public void logout() {
         if (this.clients.logout(this.slacker)) {
-            this.slacker.sendResponse(Protocol.successMessage("successLogout"));
+            this.slacker.sendResponse(Protocol.successMessage("successMessage", "successLogout"));
         } else this.slacker.sendResponse(Protocol.errorMessage("errorLogout"));
     }
 
@@ -98,7 +98,7 @@ public class Actions implements ProtocolInterface {
                 Slacker slacker = entry.getValue();
                 message.append(slacker).append("\n");
             }
-            this.slacker.sendResponse(Protocol.successMessage(message.toString().trim()));
+            this.slacker.sendResponse(Protocol.successMessage("successMessage", message.toString().trim()));
         } else {
             this.slacker.sendResponse(Protocol.infoMessage("No online users"));
         }
@@ -115,7 +115,7 @@ public class Actions implements ProtocolInterface {
         Slacker slacker = this.clients.exists(username);
         if (slacker != null) {
             if (slacker.isLoged()) {
-                slacker.sendResponse(Protocol.successMessage(message));
+                slacker.sendResponse(Protocol.successMessage("successMessage", message));
             } else {
                 this.slacker.sendResponse(Protocol.infoMessage("The requested user isn't online"));
             }
@@ -136,7 +136,7 @@ public class Actions implements ProtocolInterface {
         if (group != null) {
             try {
                 group.sendMessage(message);
-                slacker.sendResponse(Protocol.successMessage("successGroupMessage"));
+                slacker.sendResponse(Protocol.successMessage("successMessage", "successGroupMessage"));
             } catch (IOException e) {
                 slacker.sendResponse(Protocol.errorMessage("Impossible to send the message to the group"));
                 e.printStackTrace();
@@ -156,9 +156,8 @@ public class Actions implements ProtocolInterface {
         Group group = this.groups.exists(groupName);
         if (group == null) {
             Group newOne = new Group(groupName, this.slacker);
-            newOne.run();
             this.groups.addModel(newOne.getGroupName(), newOne);
-            slacker.sendResponse(Protocol.successMessage("createdGroup"));
+            slacker.sendResponse(Protocol.successMessage("successMessage", "createdGroup"));
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("The group name already exists"));
         }
@@ -175,7 +174,7 @@ public class Actions implements ProtocolInterface {
         if (group != null) {
             if (group.getClients().getModels().size() == 0) {
                 this.groups.delete(groupName);
-                slacker.sendResponse(Protocol.successMessage("deletedGroup"));
+                slacker.sendResponse(Protocol.successMessage("successMessage", "deletedGroup"));
             } else {
                 slacker.sendResponse(Protocol.errorMessage("notEmptyGroup"));
             }
@@ -194,11 +193,11 @@ public class Actions implements ProtocolInterface {
         Group group = this.groups.exists(groupName);
         if (group != null) {
             group.leave(this.slacker);
-            slacker.sendResponse(Protocol.successMessage("leavedGroup"));
+            slacker.sendResponse(Protocol.successMessage("successMessage", "leavedGroup"));
             // if is empty now, delete the group
             if (group.getClients().getModels().size() == 0) {
                 this.deleteGroup(groupName);
-                slacker.sendResponse(Protocol.successMessage("deletedGroup"));
+                slacker.sendResponse(Protocol.successMessage("successMessage", "deletedGroup"));
             }
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("The group doesn't exists"));
@@ -219,7 +218,7 @@ public class Actions implements ProtocolInterface {
                 this.slacker.sendResponse(Protocol.errorMessage("Already at the group"));
             } else {
                 group.getClients().addClient(this.slacker);
-                this.slacker.sendResponse(Protocol.successMessage("successAdded"));
+                this.slacker.sendResponse(Protocol.successMessage("successMessage", "successAdded"));
             }
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("The group doesn't exists"));

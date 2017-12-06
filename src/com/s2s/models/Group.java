@@ -9,12 +9,10 @@ import java.util.UUID;
 public class Group extends Thread {
     private String groupId;
     private String groupName;
-    private String groupAddress;
     private Clients slackers;
+    private String group;
     private int multicastPort;
     DatagramSocket multicasSocket;
-    InetAddress multicastGroup;
-
 
     public Group(String name, Slacker creator) {
         this.groupId = UUID.randomUUID().toString();
@@ -22,6 +20,7 @@ public class Group extends Thread {
         this.groupName = name;
         this.slackers.addClient(creator);
         this.multicastPort = utils.PortGen.getMultiCastPort();
+        this.group = "225.4.5.6";
     }
 
     public String getGroupName() {
@@ -42,22 +41,11 @@ public class Group extends Thread {
      * @param message
      */
     public void sendMessage(String message) throws IOException {
-        byte[] buf = new byte[256];
+        MulticastSocket socket = new MulticastSocket();
+        byte[] buf;
         buf = message.getBytes();
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, this.multicastGroup, this.multicastPort);
-        this.multicasSocket.send(packet);
+        DatagramPacket packet = new DatagramPacket(buf, buf.length,
+                InetAddress.getByName(this.group), this.multicastPort);
+        socket.send(packet);
     }
-
-    public void run() {
-        try {
-            DatagramSocket socket = new DatagramSocket(this.multicastPort);
-            InetAddress group = InetAddress.getByName("230.0.0.1");
-            this.multicasSocket = socket;
-            this.multicastGroup = group;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-    }
-
 }

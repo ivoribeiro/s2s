@@ -18,8 +18,8 @@ public class Protocol {
      * @param message
      * @return
      */
-    public static String successMessage(String message) {
-        return VerbEnum.SUCCESS + ":" + message;
+    public static String successMessage(String action, String message) {
+        return VerbEnum.SUCCESS + ":" + action + ":" + message;
     }
 
     /**

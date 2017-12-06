@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class Client extends Thread {
 
-    private Actions actions;
+    private ClientActions actions;
 
-    public Client(Actions actions) throws IOException {
+    public Client(ClientActions actions) throws IOException {
         this.actions = actions;
     }
 

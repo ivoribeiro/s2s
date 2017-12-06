@@ -1,20 +1,25 @@
 package com.s2s.client;
 
+import com.s2s.client.Router;
+import com.s2s.repository.Repository;
+
 import java.io.*;
+import java.util.Map;
 
 /**
  * Listener to the main server socket
  */
 public class MainServerMessageHandler extends Thread {
     private BufferedReader in;
-    private String response;
     private BufferedWriter out;
+    private Router router;
 
-    public MainServerMessageHandler(InputStream in, OutputStream out) {
+    public MainServerMessageHandler(InputStream in, OutputStream out, Map<String, Repository> repositoryMap) {
         super("Main Server Message Handler Thread");
         this.in = new BufferedReader(new InputStreamReader(in));
         Writer ouw = new OutputStreamWriter(out);
         this.out = new BufferedWriter(ouw);
+        this.router = new Router(repositoryMap);
     }
 
     /**
@@ -41,14 +46,25 @@ public class MainServerMessageHandler extends Thread {
         try {
             while ((inputLine = this.in.readLine()) != null) {
                 System.out.println("ClientServer: Message from main server");
-                System.out.println(inputLine);
-                this.response = inputLine;
+                this.processMessage(inputLine);
             }
-            //close the buffer reader
             this.in.close();
         } catch (IOException e) {
             System.out.println("Error reading buffer");
             e.printStackTrace();
+        }
+    }
+
+    private void processMessage(String message) throws IOException {
+        String[] params = message.split(":", -1);
+        if (params.length < 2) {
+            System.out.println("Error: Invalid number of args" + "\r\n");
+        } else {
+            try {
+                this.router.processRoute(params);
+            } catch (Error error) {
+                System.out.println(error.getMessage() + "\r\n");
+            }
         }
     }
 }

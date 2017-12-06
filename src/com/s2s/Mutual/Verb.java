@@ -1,4 +1,4 @@
-package com.s2s.server;
+package com.s2s.Mutual;
 
 import com.s2s.Mutual.VerbEnum;
 
@@ -22,6 +22,18 @@ public class Verb {
                 } else {
                     if (VerbEnum.POST.toString().equals(verb)) {
                         exists = VerbEnum.PUT;
+                    } else {
+                        if (VerbEnum.SUCCESS.toString().equals(verb)) {
+                            exists = VerbEnum.SUCCESS;
+                        } else {
+                            if (VerbEnum.ERROR.toString().equals(verb)) {
+                                exists = VerbEnum.ERROR;
+                            } else {
+                                if (VerbEnum.INFO.toString().equals(verb)) {
+                                    exists = VerbEnum.INFO;
+                                }
+                            }
+                        }
                     }
                 }
             }
