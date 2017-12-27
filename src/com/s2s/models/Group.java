@@ -32,7 +32,7 @@ public class Group extends Thread {
     }
 
     public void leave(Slacker slacker) {
-        this.getClients().delete(slacker.getUsername());
+        this.getClients().delete(slacker.getUser().getUsername());
     }
 
     /**

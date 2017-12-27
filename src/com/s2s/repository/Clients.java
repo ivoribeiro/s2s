@@ -1,7 +1,11 @@
 package com.s2s.repository;
 
+import com.s2s.client.Client;
 import com.s2s.models.Slacker;
+import com.s2s.models.User;
+import utils.FileUtil;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,24 +17,13 @@ public class Clients extends Repository<String, Slacker> {
     public Clients() {
         super();
     }
-
     public void addClient(Slacker client) {
-        this.addModel(client.getUsername(), client);
-    }
-
-    public Slacker validate(String username, String password) {
-        Slacker exists = this.exists(username);
-        if (exists != null) {
-            if (exists.getUsername().equals(username) && exists.getPassword().equals(password)) {
-                return exists;
-            } else return null;
-        }
-        return null;
+        this.addModel(client.getUser().getUsername(), client);
     }
 
     private Slacker updateClient(Slacker old, Slacker newOne) {
-        this.getModels().replace(old.getUsername(), newOne);
-        return this.getModels().get(newOne.getUsername());
+        this.getModels().replace(old.getUser().getUsername(), newOne);
+        return this.getModels().get(newOne.getUser().getUsername());
     }
 
     public Slacker login(Slacker slacker, int serverPort) {
@@ -57,5 +50,4 @@ public class Clients extends Repository<String, Slacker> {
         }
         return online;
     }
-
 }

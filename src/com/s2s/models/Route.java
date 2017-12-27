@@ -1,6 +1,6 @@
 package com.s2s.models;
 
-import com.s2s.Mutual.VerbEnum;
+import com.s2s.mutual.VerbEnum;
 
 public class Route {
     private VerbEnum verb;

@@ -1,26 +1,22 @@
 package utils;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 
 public class FileUtil {
 
-
-    public static boolean createUserFolder(String username) {
+    public static boolean createFolder(String path) {
         try {
-            File dir = new File("users/" + username + "/chatSharing");
-            dir.mkdirs();
-            return true;
+            File dir = new File(path);
+            return dir.mkdirs();
         } catch (Exception e) {
+            System.out.println(e);
             return false;
         }
     }
 
+    public static boolean createUserFolder(String username) {
+        return FileUtil.createFolder("users/" + username + "/files");
+    }
 
     public static void copyFile(File source, File dest) throws IOException {
         InputStream is = null;

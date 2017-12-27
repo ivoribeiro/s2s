@@ -1,10 +1,7 @@
 package com.s2s.server;
 
 import com.s2s.models.Slacker;
-import com.s2s.repository.Clients;
-import com.s2s.repository.Groups;
-import com.s2s.repository.Repository;
-import com.s2s.repository.Routes;
+import com.s2s.repository.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -19,6 +16,7 @@ public class Server extends Thread {
     private Routes routes;
     private Groups groups;
     private Clients clients;
+    private Users users;
 
     public static void main(String args[]) {
         try {
@@ -32,23 +30,27 @@ public class Server extends Thread {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    public Server(int tcpPort) throws IOException {
+    public Server(int tcpPort) throws Exception {
         super("Server Thread");
         this.tcpPort = tcpPort;
         this.initRepos();
     }
 
-    private void initRepos() {
+    private void initRepos() throws Exception {
         this.repos = new HashMap<String, Repository>();
         this.routes = new Routes();
         this.clients = new Clients();
         this.groups = new Groups();
+        this.users = new Users(Users.loadUsersFile());
         this.repos.put("Routes", this.routes);
         this.repos.put("Clients", this.clients);
         this.repos.put("Groups", this.groups);
+        this.repos.put("Users", this.users);
     }
 
     public void run() {

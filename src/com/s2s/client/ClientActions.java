@@ -1,7 +1,7 @@
 package com.s2s.client;
 
-import com.s2s.Mutual.Protocol;
-import com.s2s.Mutual.ProtocolInterface;
+import com.s2s.mutual.Protocol;
+import com.s2s.mutual.ProtocolInterface;
 import com.s2s.models.Route;
 
 import java.io.IOException;

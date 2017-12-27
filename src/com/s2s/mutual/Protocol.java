@@ -1,4 +1,4 @@
-package com.s2s.Mutual;
+package com.s2s.mutual;
 
 public class Protocol {
 

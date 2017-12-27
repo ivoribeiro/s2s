@@ -1,6 +1,4 @@
-package com.s2s.Mutual;
-
-import com.s2s.Mutual.VerbEnum;
+package com.s2s.mutual;
 
 public class Verb {
     /**

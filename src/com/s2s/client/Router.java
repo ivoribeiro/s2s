@@ -1,12 +1,11 @@
 package com.s2s.client;
 
-import com.s2s.Mutual.Protocol;
-import com.s2s.Mutual.Verb;
-import com.s2s.Mutual.VerbEnum;
+import com.s2s.mutual.Protocol;
+import com.s2s.mutual.Verb;
+import com.s2s.mutual.VerbEnum;
 import com.s2s.models.Route;
 import com.s2s.repository.ClientRoutes;
 import com.s2s.repository.Repository;
-import com.s2s.repository.Routes;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;

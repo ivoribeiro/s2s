@@ -1,8 +1,8 @@
 package com.s2s.server;
 
-import com.s2s.Mutual.Protocol;
-import com.s2s.Mutual.Verb;
-import com.s2s.Mutual.VerbEnum;
+import com.s2s.mutual.Protocol;
+import com.s2s.mutual.Verb;
+import com.s2s.mutual.VerbEnum;
 import com.s2s.models.Route;
 import com.s2s.models.Slacker;
 import com.s2s.repository.Repository;
@@ -14,14 +14,14 @@ import java.util.Map;
 
 public class Router {
     private Routes routes;
-    private Actions actions;
+    private ServerActions actions;
     private Middlewares middlewares;
     private Slacker slacker;
 
     public Router(Slacker slacker, Map<String, Repository> repositoryMap) {
         this.routes = (Routes) repositoryMap.get("Routes");
         this.slacker = slacker;
-        this.actions = new Actions(this, repositoryMap, slacker);
+        this.actions = new ServerActions(this, repositoryMap, slacker);
         this.middlewares = new Middlewares(slacker);
     }
 

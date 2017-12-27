@@ -1,35 +1,35 @@
 package com.s2s.server;
 
-import com.s2s.Mutual.Protocol;
-import com.s2s.Mutual.ProtocolInterface;
+import com.s2s.models.User;
+import com.s2s.mutual.Protocol;
+import com.s2s.mutual.ProtocolInterface;
 import com.s2s.models.Group;
 import com.s2s.models.Route;
 import com.s2s.models.Slacker;
-import com.s2s.repository.Clients;
-import com.s2s.repository.Groups;
-import com.s2s.repository.Repository;
-import com.s2s.repository.Routes;
+import com.s2s.repository.*;
+import utils.FileUtil;
 import utils.PortGen;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Map;
 
-public class Actions implements ProtocolInterface {
+public class ServerActions implements ProtocolInterface {
 
     private Slacker slacker;
     private Clients clients;
     private Routes routes;
     private Groups groups;
     private Router router;
+    private Users users;
 
-    public Actions(Router router, Map<String, Repository> repositoryMap, Slacker slacker) {
+    public ServerActions(Router router, Map<String, Repository> repositoryMap, Slacker slacker) {
         this.slacker = slacker;
         this.router = router;
         this.clients = (Clients) repositoryMap.get("Clients");
         this.routes = (Routes) repositoryMap.get("Routes");
         this.groups = (Groups) repositoryMap.get("Groups");
+        this.users = (Users) repositoryMap.get("Users");
     }
 
     public void helpers() throws IOException {
@@ -43,15 +43,18 @@ public class Actions implements ProtocolInterface {
 
     public void register(String username, String password) {
         if (this.clients.exists(username) == null) {
-            //TODO create user dir and saves in the file
             try {
                 Slacker newOne = new Slacker(this.slacker.getClientSocket());
-                newOne.setUsername(username);
-                newOne.setPassword(password);
+                User user = new User(username, password);
+                this.users.addModel(username, user);
+                newOne.setUser(user);
                 this.clients.addClient(newOne);
+                Users.saveNewUser(this.users, user);
                 this.slacker.sendResponse(Protocol.successMessage("successMessage", "Success register"));
             } catch (IOException e) {
                 this.slacker.sendResponse(Protocol.errorMessage("IO error"));
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
@@ -66,11 +69,11 @@ public class Actions implements ProtocolInterface {
      * @param password
      */
     public void login(String username, String password) {
-        Slacker client = this.clients.validate(username, password);
-        if (client != null) {
-            this.clients.login(client, PortGen.getMultiCastPort());
-            this.router.updateSlacker(client);
-            this.slacker = client;
+        User user = this.users.validate(username, password);
+        if (user != null) {
+            this.slacker.setUser(user);
+            this.clients.login(this.slacker, PortGen.getMultiCastPort());
+            this.router.updateSlacker(this.slacker);
             this.slacker.sendResponse(Protocol.successMessage("successMessage", "successLogin"));
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("invalidData"));
@@ -214,7 +217,7 @@ public class Actions implements ProtocolInterface {
         Group group = this.groups.exists(groupName);
         if (group != null) {
 
-            if (group.getClients().exists(this.slacker.getUsername()) != null) {
+            if (group.getClients().exists(this.slacker.getUser().getUsername()) != null) {
                 this.slacker.sendResponse(Protocol.errorMessage("Already at the group"));
             } else {
                 group.getClients().addClient(this.slacker);
@@ -231,6 +234,6 @@ public class Actions implements ProtocolInterface {
      * @param route
      */
     public void processAction(Route route, String... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Actions.class.getMethod(route.getAction(), route.getArgTypes()).invoke(this, args);
+        ServerActions.class.getMethod(route.getAction(), route.getArgTypes()).invoke(this, args);
     }
 }

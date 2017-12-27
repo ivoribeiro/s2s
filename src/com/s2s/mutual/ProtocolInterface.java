@@ -1,6 +1,4 @@
-package com.s2s.Mutual;
-
-import java.io.IOException;
+package com.s2s.mutual;
 
 public interface ProtocolInterface {
 

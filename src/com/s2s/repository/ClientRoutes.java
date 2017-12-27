@@ -1,11 +1,7 @@
 package com.s2s.repository;
 
 import com.s2s.models.Route;
-import com.s2s.Mutual.VerbEnum;
-import com.s2s.models.Slacker;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.s2s.mutual.VerbEnum;
 
 public class ClientRoutes extends Repository<String, Route> {
 

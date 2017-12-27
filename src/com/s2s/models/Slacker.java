@@ -9,8 +9,7 @@ public class Slacker {
     private Socket clientSocket;
     private String address;
     private int port;
-    private String username;
-    private String password;
+    private User user;
     private boolean loged;
     private BufferedReader in;
     private BufferedWriter out;
@@ -25,28 +24,16 @@ public class Slacker {
         this.out = new BufferedWriter(ouw);
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void setPort(int port) {
         this.port = port;
     }
 
-    public String getUsername() {
-        return this.username;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
     public Socket getClientSocket() {
         return clientSocket;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public void setLoged(boolean loged) {
@@ -75,6 +62,10 @@ public class Slacker {
     }
 
     public String toString() {
-        return this.username + " " + this.address + ":" + this.port;
+        return this.user.getUsername() + " " + this.address + ":" + this.port;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 }
