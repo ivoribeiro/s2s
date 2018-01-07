@@ -32,6 +32,13 @@ public class ClientRoutes extends Repository<String, Route> {
         Route r3 = new Route(verb, path, "errorMessage", new Class[]{String.class}, null);
         r3.setHelper("errorMessage event, show error messages");
         this.addModel(key, r3);
+
+        verb = VerbEnum.SUCCESS;
+        path = "listenGroup";
+        key = verb + path;
+        Route r4 = new Route(verb, path, "listenGroup", new Class[]{String.class, String.class}, null);
+        r4.setHelper("listen group event, new thread to group listener");
+        this.addModel(key, r4);
     }
 
     /**

@@ -27,6 +27,14 @@ public class Group extends Thread {
         return this.groupName;
     }
 
+    public String getGroup() {
+        return this.group;
+    }
+
+    public int getPort() {
+        return this.multicastPort;
+    }
+
     public Clients getClients() {
         return this.slackers;
     }

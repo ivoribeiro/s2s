@@ -221,7 +221,7 @@ public class ServerActions implements ProtocolInterface {
                 this.slacker.sendResponse(Protocol.errorMessage("Already at the group"));
             } else {
                 group.getClients().addClient(this.slacker);
-                this.slacker.sendResponse(Protocol.successMessage("successMessage", "successAdded"));
+                this.slacker.sendResponse(Protocol.successMessage("listenGroup", group.getGroup() + ":" + group.getPort()));
             }
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("The group doesn't exists"));
@@ -243,6 +243,16 @@ public class ServerActions implements ProtocolInterface {
         } else {
             this.slacker.sendResponse(Protocol.infoMessage("Dont exist groups at this moment"));
         }
+    }
+
+    /**
+     * Listen to the user groups for new messages
+     *
+     * @param group
+     */
+    @Override
+    public void getMyGroups(String group) {
+
     }
 
     /**

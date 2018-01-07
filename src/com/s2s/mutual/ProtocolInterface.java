@@ -68,7 +68,12 @@ public interface ProtocolInterface {
     public void joinGroup(String name);
 
     /**
-     *  Get existing groups
+     * Get existing groups
      */
     public void getGroups();
+
+    /**
+     * Listen to the user groups for new messages
+     */
+    public void getMyGroups(String group) ;
 }

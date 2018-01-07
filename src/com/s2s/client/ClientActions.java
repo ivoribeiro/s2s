@@ -83,15 +83,14 @@ public class ClientActions implements ProtocolInterface {
      */
     @Override
     public void createGroup(String name) {
-
     }
 
-    public void createdGroup(String group, int port) {
+    public void createdGroup(String group, String port) {
         this.listenGroup(group, port);
     }
 
-    private void listenGroup(String group, int port) {
-        new MulticastListner(group, port).run();
+    public void listenGroup(String group, String port) {
+        new MulticastListner(group, Integer.parseInt(port)).run();
     }
 
     /**
@@ -121,7 +120,6 @@ public class ClientActions implements ProtocolInterface {
      */
     @Override
     public void joinGroup(String name) {
-
     }
 
     /**
@@ -130,6 +128,16 @@ public class ClientActions implements ProtocolInterface {
     @Override
     public void getGroups() {
 
+    }
+
+    /**
+     * Listen to the user groups for new messages
+     *
+     * @param group
+     */
+    @Override
+    public void getMyGroups(String group) {
+        System.out.println(group);
     }
 
     public void successMessage(String message) {
