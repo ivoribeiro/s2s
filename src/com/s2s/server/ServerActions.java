@@ -33,12 +33,12 @@ public class ServerActions implements ProtocolInterface {
     }
 
     public void help() throws IOException {
-        String message = "";
         for (Map.Entry<String, Route> entry : this.routes.getModels().entrySet()) {
             Route route = entry.getValue();
-            message = message + route.getVerb() + " " + route.getPath() + " " + route.getHelper() + "\n";
+            String message = route.getVerb() + " " + route.getPath() + " " + route.getHelper() + "\n";
+            String send = Protocol.successMessage("successMessage", message);
+            this.slacker.sendResponse(send);
         }
-        this.slacker.sendResponse(Protocol.successMessage("successMessage", message));
     }
 
     public void register(String username, String password) {

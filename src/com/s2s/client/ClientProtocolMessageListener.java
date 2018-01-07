@@ -24,7 +24,6 @@ public class ClientProtocolMessageListener extends Thread {
         String inputLine;
         try {
             while ((inputLine = this.slacker.getIn().readLine()) != null) {
-                System.out.println(inputLine);
                 this.processMessage(inputLine);
             }
             this.slacker.getIn().close();
@@ -43,7 +42,7 @@ public class ClientProtocolMessageListener extends Thread {
 
     private void processMessage(String message) throws IOException {
         String[] params = message.split(":", -1);
-        if (params.length < 3) {
+        if (params.length < 2) {
             System.out.println("Error: Invalid number of args" + "\r\n");
         } else {
             try {
