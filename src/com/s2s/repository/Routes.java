@@ -11,7 +11,7 @@ public class Routes extends Repository<String, Route> {
         VerbEnum verb = VerbEnum.GET;
         String path = "help";
         String key = verb + path;
-        Route r1 = new Route(verb, path, "helpers", new Class[]{}, null);
+        Route r1 = new Route(verb, path, "help", new Class[]{}, null);
         r1.setHelper("Return the server protocol helpers");
         this.addModel(key, r1);
 

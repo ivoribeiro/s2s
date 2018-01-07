@@ -32,11 +32,11 @@ public class ServerActions implements ProtocolInterface {
         this.users = (Users) repositoryMap.get("Users");
     }
 
-    public void helpers() throws IOException {
+    public void help() throws IOException {
         String message = "";
         for (Map.Entry<String, Route> entry : this.routes.getModels().entrySet()) {
             Route route = entry.getValue();
-            message = message + route.getHelper() + "\n";
+            message = message + route.getVerb() + " " + route.getPath() + " " + route.getHelper() + "\n";
         }
         this.slacker.sendResponse(Protocol.successMessage("successMessage", message));
     }

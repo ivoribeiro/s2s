@@ -12,9 +12,9 @@ import java.net.MulticastSocket;
 
 public class ClientActions implements ProtocolInterface {
 
-    MainServerMessageHandler mainServerMessageHandler;
+    ClientProtocolMessageListener mainServerMessageHandler;
 
-    public ClientActions(MainServerMessageHandler serverHandler) {
+    public ClientActions(ClientProtocolMessageListener serverHandler) {
         this.mainServerMessageHandler = serverHandler;
     }
 

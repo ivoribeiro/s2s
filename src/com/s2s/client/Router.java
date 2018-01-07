@@ -1,5 +1,6 @@
 package com.s2s.client;
 
+import com.s2s.models.Slacker;
 import com.s2s.mutual.Protocol;
 import com.s2s.mutual.Verb;
 import com.s2s.mutual.VerbEnum;
@@ -15,7 +16,7 @@ public class Router {
     private ClientRoutes routes;
     private ClientActions actions;
 
-    public Router(Map<String, Repository> repositoryMap) {
+    public Router(Slacker slacker, Map<String, Repository> repositoryMap) {
         this.routes = (ClientRoutes) repositoryMap.get("Routes");
         this.actions = new ClientActions();
     }
