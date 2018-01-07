@@ -136,6 +136,14 @@ public class ClientActions implements ProtocolInterface {
         System.out.println(message);
     }
 
+    public void infoMessage(String message) {
+        System.out.println(message);
+    }
+
+    public void errorMessage(String message) {
+        System.out.println(message);
+    }
+
     public void processAction(Route route, String... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         com.s2s.client.ClientActions.class.getMethod(route.getAction(), route.getArgTypes()).invoke(this, args);
     }

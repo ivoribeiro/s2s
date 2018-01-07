@@ -51,6 +51,6 @@ public class Group extends Thread {
 
     @Override
     public String toString() {
-        return "Id:" + this.groupId + " Name:" + this.groupName + " Size " + this.slackers.getModels().size() + " Online " + this.slackers.onlineUsers().getModels().size();
+        return "Id " + this.groupId + " Name " + this.groupName + " Size " + this.slackers.getModels().size() + " Online " + this.slackers.onlineUsers().getModels().size();
     }
 }

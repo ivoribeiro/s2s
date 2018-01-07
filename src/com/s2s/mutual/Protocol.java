@@ -29,7 +29,7 @@ public class Protocol {
      * @return
      */
     public static String infoMessage(String message) {
-        return VerbEnum.INFO + ":" + message;
+        return VerbEnum.INFO + ":" + "infoMessage" + ":" + message;
     }
 
     /**
@@ -39,7 +39,8 @@ public class Protocol {
      * @return
      */
     public static String errorMessage(String message) {
-        return VerbEnum.ERROR + ":" + message;
+
+        return VerbEnum.ERROR + ":" + "errorMessage" + ":" + message;
     }
 
     /**

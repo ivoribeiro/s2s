@@ -46,6 +46,8 @@ public class Router {
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                     throw new Error(Protocol.errorMessage("NoSuchMethodException"));
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
             } else {
                 throw new Error("Route don't exists");
