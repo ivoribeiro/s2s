@@ -48,4 +48,9 @@ public class Group extends Thread {
                 InetAddress.getByName(this.group), this.multicastPort);
         socket.send(packet);
     }
+
+    @Override
+    public String toString() {
+        return "Id:" + this.groupId + " Name:" + this.groupName + " Size " + this.slackers.getModels().size() + " Online " + this.slackers.onlineUsers().getModels().size();
+    }
 }

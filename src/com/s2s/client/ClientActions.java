@@ -124,6 +124,14 @@ public class ClientActions implements ProtocolInterface {
 
     }
 
+    /**
+     * Get existing groups
+     */
+    @Override
+    public void getGroups() {
+
+    }
+
     public void successMessage(String message) {
         System.out.println(message);
     }

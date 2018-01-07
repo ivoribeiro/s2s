@@ -62,7 +62,13 @@ public interface ProtocolInterface {
 
     /**
      * Leaves a group
+     *
      * @param name
      */
     public void joinGroup(String name);
+
+    /**
+     *  Get existing groups
+     */
+    public void getGroups();
 }

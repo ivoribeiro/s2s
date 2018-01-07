@@ -229,6 +229,23 @@ public class ServerActions implements ProtocolInterface {
     }
 
     /**
+     * Get existing groups
+     */
+    public void getGroups() {
+        if (this.groups.getModels().size() != 0) {
+            StringBuilder message = new StringBuilder();
+            for (Map.Entry<String, Group> entry : this.groups.getModels().entrySet()) {
+                Group group = entry.getValue();
+                message.append(group).append("\n");
+            }
+
+            this.slacker.sendResponse(Protocol.successMessage("successMessage", message.toString().trim()));
+        } else {
+            this.slacker.sendResponse(Protocol.infoMessage("Dont exist groups at this moment"));
+        }
+    }
+
+    /**
      * Process a route action call with reflection method invoke
      *
      * @param route

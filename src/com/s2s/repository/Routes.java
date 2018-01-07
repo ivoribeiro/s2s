@@ -84,8 +84,8 @@ public class Routes extends Repository<String, Route> {
         Route r11 = new Route(verb, path, "joinGroup", new Class[]{String.class}, "logedIn");
         r11.setHelper("Join a group");
         this.addModel(key, r11);
-        verb = VerbEnum.POST;
 
+        verb = VerbEnum.POST;
         path = "groups/leave";
         key = verb + path;
         Route r12 = new Route(verb, path, "leaveGroup", new Class[]{String.class}, "logedIn");
