@@ -20,6 +20,7 @@ public class ClientServer extends Thread {
     private boolean closed = false;
     private HashMap<String, Repository> repos;
     private ClientRoutes routes;
+    private Channels channels;
 
 
     public static void main(String[] args) {
@@ -37,7 +38,9 @@ public class ClientServer extends Thread {
     private void initRepos() {
         this.repos = new HashMap<String, Repository>();
         this.routes = new ClientRoutes();
+        this.channels = new Channels();
         this.repos.put("Routes", this.routes);
+        this.repos.put("Channels", this.channels);
     }
 
     /**

@@ -118,7 +118,7 @@ public class ServerActions implements ProtocolInterface {
         Slacker slacker = this.clients.exists(username);
         if (slacker != null) {
             if (slacker.isLoged()) {
-                slacker.sendResponse(Protocol.successMessage("successMessage", message));
+                slacker.sendResponse(Protocol.successMessage("messageReceived", this.slacker.getUser().getUsername() + ":" + message));
             } else {
                 this.slacker.sendResponse(Protocol.infoMessage("The requested user isn't online"));
             }

@@ -1,24 +1,32 @@
 package com.s2s.client;
 
+import com.s2s.models.Slacker;
 import com.s2s.mutual.Protocol;
 import com.s2s.mutual.ProtocolInterface;
 import com.s2s.models.Route;
+import com.s2s.repository.Channels;
+import com.s2s.repository.Repository;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.Map;
 
 public class ClientActions implements ProtocolInterface {
 
     ClientProtocolMessageListener mainServerMessageHandler;
+    Slacker slacker;
+    Channels channels;
 
     public ClientActions(ClientProtocolMessageListener serverHandler) {
         this.mainServerMessageHandler = serverHandler;
     }
 
-    public ClientActions() {
+    public ClientActions(Slacker slacker, Map<String, Repository> repositoryMap) {
+        this.slacker = slacker;
+        this.channels = (Channels) repositoryMap.get("Channels");
     }
 
     /**
@@ -85,12 +93,16 @@ public class ClientActions implements ProtocolInterface {
     public void createGroup(String name) {
     }
 
-    public void createdGroup(String group, String port) {
-        this.listenGroup(group, port);
+    public void createdGroup(String name, String group, String port) {
+        this.listenGroup(name, group, port);
     }
 
-    public void listenGroup(String group, String port) {
+    public void listenGroup(String name, String group, String port) {
         new MulticastListner(group, Integer.parseInt(port)).run();
+    }
+
+    public void logedOut() {
+
     }
 
     /**
@@ -140,6 +152,10 @@ public class ClientActions implements ProtocolInterface {
         System.out.println(group);
     }
 
+    public void messageReceived(String sender, String message) {
+        this.channels.addMessage(sender, message);
+    }
+
     public void successMessage(String message) {
         System.out.println(message);
     }
@@ -164,6 +180,10 @@ public class ClientActions implements ProtocolInterface {
         public MulticastListner(String group, int port) {
             this.group = group;
             this.port = port;
+        }
+
+        public void stopListen() {
+            this.listning = false;
         }
 
         public void run() {

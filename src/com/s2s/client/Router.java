@@ -18,7 +18,7 @@ public class Router {
 
     public Router(Slacker slacker, Map<String, Repository> repositoryMap) {
         this.routes = (ClientRoutes) repositoryMap.get("Routes");
-        this.actions = new ClientActions();
+        this.actions = new ClientActions(slacker, repositoryMap);
     }
 
     public void processRoute(String[] params) throws Error {
