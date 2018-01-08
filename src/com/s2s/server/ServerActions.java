@@ -74,7 +74,7 @@ public class ServerActions implements ProtocolInterface {
             this.slacker.setUser(user);
             this.clients.login(this.slacker, PortGen.getMultiCastPort());
             this.router.updateSlacker(this.slacker);
-            this.slacker.sendResponse(Protocol.successMessage("successMessage", "successLogin"));
+            this.slacker.sendResponse(Protocol.successMessage("successLogin", this.slacker.getUser().getUsername()));
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("invalidData"));
         }
@@ -253,6 +253,14 @@ public class ServerActions implements ProtocolInterface {
     @Override
     public void getMyGroups(String group) {
 
+    }
+
+    /**
+     * Saves the user messages
+     */
+    @Override
+    public void saveUserMessages() {
+        this.slacker.sendResponse(Protocol.successMessage("saveYourMessages", ""));
     }
 
     /**

@@ -76,4 +76,9 @@ public interface ProtocolInterface {
      * Listen to the user groups for new messages
      */
     public void getMyGroups(String group) ;
+
+    /**
+     * Saves the user messages
+     */
+    public void saveUserMessages();
 }

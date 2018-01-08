@@ -46,6 +46,20 @@ public class ClientRoutes extends Repository<String, Route> {
         Route r5 = new Route(verb, path, "messageReceived", new Class[]{String.class, String.class}, null);
         r5.setHelper("Message received event");
         this.addModel(key, r5);
+
+        verb = VerbEnum.SUCCESS;
+        path = "saveYourMessages";
+        key = verb + path;
+        Route r6 = new Route(verb, path, "saveUserMessagesEvent", new Class[]{String.class}, null);
+        r6.setHelper("Save messages order");
+        this.addModel(key, r6);
+
+        verb = VerbEnum.SUCCESS;
+        path = "successLogin";
+        key = verb + path;
+        Route r7 = new Route(verb, path, "successLogin", new Class[]{String.class}, null);
+        r6.setHelper("Success login event");
+        this.addModel(key, r7);
     }
 
     /**

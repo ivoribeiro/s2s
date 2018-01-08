@@ -13,4 +13,5 @@ public class Channel extends Repository<Timestamp, Message> {
     Channel(HashMap<Timestamp, Message> messages) {
         super(messages);
     }
+
 }

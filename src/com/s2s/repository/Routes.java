@@ -92,6 +92,13 @@ public class Routes extends Repository<String, Route> {
         r12.setHelper("Leaves a group");
         this.addModel(key, r12);
 
+        verb = VerbEnum.POST;
+        path = "users/messages/save";
+        key = verb + path;
+        Route r13 = new Route(verb, path, "saveUserMessages", new Class[]{}, "logedIn");
+        r13.setHelper("Save the user messages");
+        this.addModel(key, r13);
+
     }
 
     /**

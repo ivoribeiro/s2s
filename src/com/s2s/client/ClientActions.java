@@ -1,6 +1,8 @@
 package com.s2s.client;
 
+import com.s2s.models.Message;
 import com.s2s.models.Slacker;
+import com.s2s.models.User;
 import com.s2s.mutual.Protocol;
 import com.s2s.mutual.ProtocolInterface;
 import com.s2s.models.Route;
@@ -152,12 +154,28 @@ public class ClientActions implements ProtocolInterface {
         System.out.println(group);
     }
 
+    /**
+     * Saves the user messages
+     */
+    @Override
+    public void saveUserMessages() {
+
+    }
+
+    public void saveUserMessagesEvent(String message) throws Exception {
+        Message.saveMessagesOnFile(this.channels, this.slacker.getUser().getUsername());
+    }
+
     public void messageReceived(String sender, String message) {
         this.channels.addMessage(sender, message);
     }
 
     public void successMessage(String message) {
         System.out.println(message);
+    }
+
+    public void successLogin(String username) {
+        this.slacker.setUser(new User(username, ""));
     }
 
     public void infoMessage(String message) {
