@@ -36,7 +36,7 @@ public class ServerActions implements ProtocolInterface {
         for (Map.Entry<String, Route> entry : this.routes.getModels().entrySet()) {
             Route route = entry.getValue();
             String message = route.getVerb() + " " + route.getPath() + " " + route.getHelper() + "\n";
-            String send = Protocol.successMessage("successMessage", message);
+            String send = Protocol.successMessage("successMessage", message.trim());
             this.slacker.sendResponse(send);
         }
     }
