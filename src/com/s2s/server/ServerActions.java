@@ -138,7 +138,7 @@ public class ServerActions implements ProtocolInterface {
         Group group = this.groups.exists(groupName);
         if (group != null) {
             try {
-                group.sendMessage(message);
+                group.sendMessage(this.slacker.getUser().getUsername()+"-"+message);
                 slacker.sendResponse(Protocol.successMessage("successMessage", "successGroupMessage"));
             } catch (IOException e) {
                 slacker.sendResponse(Protocol.errorMessage("Impossible to send the message to the group"));
