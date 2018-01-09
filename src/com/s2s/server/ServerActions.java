@@ -200,7 +200,6 @@ public class ServerActions implements ProtocolInterface {
             // if is empty now, delete the group
             if (group.getClients().getModels().size() == 0) {
                 this.deleteGroup(groupName);
-                slacker.sendResponse(Protocol.successMessage("successMessage", "deletedGroup"));
             }
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("The group doesn't exists"));
