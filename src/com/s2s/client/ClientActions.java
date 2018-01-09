@@ -175,6 +175,7 @@ public class ClientActions implements ProtocolInterface {
     }
 
     public void successLogin(String username) {
+        System.out.println("Sucess Login");
         this.slacker.setUser(new User(username, ""));
     }
 
@@ -183,7 +184,7 @@ public class ClientActions implements ProtocolInterface {
     }
 
     public void errorMessage(String message) {
-        System.out.println(message);
+        System.out.println("Error: "+message);
     }
 
     public void processAction(Route route, String... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

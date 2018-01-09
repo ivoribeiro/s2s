@@ -1,6 +1,7 @@
 package com.s2s.server;
 
 import com.s2s.models.Slacker;
+import com.s2s.mutual.Protocol;
 import com.s2s.repository.Repository;
 import com.s2s.repository.Routes;
 
@@ -43,13 +44,13 @@ public class ProtocolMessageListener extends Thread {
     private void processMessage(String message) throws IOException {
         String[] params = message.split(" ", -1);
         if (params.length < 2) {
-            this.slacker.getOut().write("Error: Invalid number of args" + "\r\n");
+            this.slacker.getOut().write(Protocol.errorMessage("Invalid number of args") + "\r\n");
             this.slacker.getOut().flush();
         } else {
             try {
                 this.router.processRoute(params);
             } catch (Error error) {
-                this.slacker.getOut().write(error.getMessage() + "\r\n");
+                this.slacker.getOut().write(Protocol.errorMessage(error.getMessage() + "\r\n"));
                 this.slacker.getOut().flush();
             }
         }

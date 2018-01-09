@@ -41,7 +41,6 @@ public class ClientProtocolMessageListener extends Thread {
      */
 
     private void processMessage(String message) throws IOException {
-        System.out.println(message);
         String[] params = message.split(":", -1);
         if (params.length < 2) {
             System.out.println("Error: Invalid number of args" + "\r\n");

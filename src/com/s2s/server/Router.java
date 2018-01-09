@@ -47,7 +47,7 @@ public class Router {
                             this.middlewares.processMiddleware(route);
                         } catch (Exception ex) {
                             if (ex instanceof IllegalAccessException) {
-                                throw new Error("Error: Blocked on middleware");
+                                throw new Error("Blocked on middleware");
                             } else {
                                 System.out.println(ex);
                             }
@@ -68,12 +68,14 @@ public class Router {
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                     throw new Error(Protocol.errorMessage("NoSuchMethodException"));
+                } catch (Exception e) {
+                    System.out.println(e);
                 }
             } else {
                 throw new Error("Route don't exists");
             }
         } else {
-            throw new Error("Error: Unknown verb");
+            throw new Error("Unknown verb");
         }
     }
 }

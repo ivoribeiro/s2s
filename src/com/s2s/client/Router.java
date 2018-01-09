@@ -35,7 +35,7 @@ public class Router {
                     }
                     this.actions.processAction(route, args);
                 } catch (IllegalArgumentException ex) {
-                    throw new Error("Wrong action params number");
+                    throw new Error("Illegal Arguments");
                 } catch (InvocationTargetException ex) {
                     Throwable real = ex.getTargetException();
                     real.printStackTrace();
