@@ -95,11 +95,12 @@ public class ClientActions implements ProtocolInterface {
     public void createGroup(String name) {
     }
 
-    public void createdGroup(String name, String group, String port) {
-        this.listenGroup(name, group, port);
+    public void createdGroup(String group, String port) {
+        this.listenGroup(group, port);
     }
 
-    public void listenGroup(String name, String group, String port) {
+    public void listenGroup(String group, String port) {
+        System.out.println("Listen Group on " + group + " " + port);
         new MulticastListner(group, Integer.parseInt(port)).run();
     }
 
@@ -184,7 +185,7 @@ public class ClientActions implements ProtocolInterface {
     }
 
     public void errorMessage(String message) {
-        System.out.println("Error: "+message);
+        System.out.println("Error: " + message);
     }
 
     public void processAction(Route route, String... args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

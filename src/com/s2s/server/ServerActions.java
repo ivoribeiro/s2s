@@ -100,8 +100,8 @@ public class ServerActions implements ProtocolInterface {
             for (Map.Entry<String, Slacker> entry : clients.getModels().entrySet()) {
                 Slacker slacker = entry.getValue();
                 message.append(slacker).append("\n");
+                this.slacker.sendResponse(Protocol.successMessage("successMessage", slacker.toString().trim()));
             }
-            this.slacker.sendResponse(Protocol.successMessage("successMessage", message.toString().trim()));
         } else {
             this.slacker.sendResponse(Protocol.infoMessage("No online users"));
         }

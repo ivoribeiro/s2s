@@ -62,7 +62,7 @@ public class Slacker {
     }
 
     public String toString() {
-        return this.user.getUsername() + " " + this.address + ":" + this.port;
+        return this.user.getUsername() + " " + this.address + " " + this.port;
     }
 
     public User getUser() {
