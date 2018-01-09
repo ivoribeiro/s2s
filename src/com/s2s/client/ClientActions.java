@@ -101,7 +101,7 @@ public class ClientActions implements ProtocolInterface {
 
     public void listenGroup(String group, String port) {
         System.out.println("Listen Group on " + group + " " + port);
-        new MulticastListner(group, Integer.parseInt(port)).run();
+        new MulticastListner(group, Integer.parseInt(port)).start();
     }
 
     public void logedOut() {
@@ -192,7 +192,7 @@ public class ClientActions implements ProtocolInterface {
         com.s2s.client.ClientActions.class.getMethod(route.getAction(), route.getArgTypes()).invoke(this, args);
     }
 
-    protected class MulticastListner {
+    protected class MulticastListner extends Thread {
         private String group;
         private int port;
         private boolean listning = true;
