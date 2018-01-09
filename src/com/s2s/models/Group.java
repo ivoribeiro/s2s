@@ -43,6 +43,10 @@ public class Group extends Thread {
         this.getClients().delete(slacker.getUser().getUsername());
     }
 
+    public void setGroupName(String groupName){
+        this.groupName=groupName;
+    }
+
     /**
      * Send a message to all the  group clients
      *

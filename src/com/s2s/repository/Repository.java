@@ -27,6 +27,10 @@ public class Repository<K, V> {
         return this.models.remove(key);
     }
 
+    public V update(K key, V value) {
+        return this.models.put(key, value);
+    }
+
     public HashMap<K, V> getModels() {
         return models;
     }

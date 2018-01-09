@@ -138,7 +138,7 @@ public class ServerActions implements ProtocolInterface {
         Group group = this.groups.exists(groupName);
         if (group != null) {
             try {
-                group.sendMessage(this.slacker.getUser().getUsername()+"-"+message);
+                group.sendMessage(this.slacker.getUser().getUsername() + "-" + message);
                 slacker.sendResponse(Protocol.successMessage("successMessage", "successGroupMessage"));
             } catch (IOException e) {
                 slacker.sendResponse(Protocol.errorMessage("Impossible to send the message to the group"));
@@ -181,6 +181,17 @@ public class ServerActions implements ProtocolInterface {
             } else {
                 slacker.sendResponse(Protocol.errorMessage("notEmptyGroup"));
             }
+        } else {
+            this.slacker.sendResponse(Protocol.errorMessage("The group doesn't exists"));
+        }
+    }
+
+    public void editGroup(String groupName, String newName) {
+        Group group = this.groups.exists(groupName);
+        if (group != null) {
+            group.setGroupName(newName);
+            this.groups.update(groupName, group);
+            slacker.sendResponse(Protocol.successMessage("successMessage", "editedGroup"));
         } else {
             this.slacker.sendResponse(Protocol.errorMessage("The group doesn't exists"));
         }

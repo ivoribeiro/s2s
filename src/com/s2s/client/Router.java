@@ -53,7 +53,7 @@ public class Router {
                 throw new Error("Route don't exists");
             }
         } else {
-            throw new Error("Error: Unknown verb");
+            throw new Error("Unknown verb");
         }
     }
 }

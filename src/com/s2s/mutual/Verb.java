@@ -9,7 +9,9 @@ public class Verb {
      */
     public static VerbEnum exists(String verb) {
         VerbEnum exists = null;
-        if (VerbEnum.POST.toString().equals(verb)) {
+        if (VerbEnum.PUT.toString().equals(verb)) {
+            exists = VerbEnum.PUT;
+        } else if (VerbEnum.POST.toString().equals(verb)) {
             exists = VerbEnum.POST;
         } else {
             if (VerbEnum.GET.toString().equals(verb)) {
