@@ -168,6 +168,7 @@ public class ClientActions implements ProtocolInterface {
     }
 
     public void messageReceived(String sender, String message) {
+        System.out.println(sender + "-" + message);
         this.channels.addMessage(sender, message);
     }
 
